@@ -18,7 +18,13 @@ export async function addingBlood(
 
 // getting all blood
 export async function gettingAllBlood() {
-  return await prisma.blood.findMany();
+  return await prisma.blood.findMany({
+    select: {
+      type: true,
+      quantity: true,
+      donorId: true,
+    },
+  });
 }
 
 // getting blood by id
@@ -34,7 +40,8 @@ export async function gettingBloodById(id: string) {
 export async function updatingBlood(
   id: string,
   type: string,
-  quantity: number
+  quantity: number,
+  donorId: string
 ) {
   return await prisma.blood.update({
     where: {
@@ -43,6 +50,7 @@ export async function updatingBlood(
     data: {
       type: type as $Enums.BloodType,
       quantity,
+      donorId,
     },
   });
 }
