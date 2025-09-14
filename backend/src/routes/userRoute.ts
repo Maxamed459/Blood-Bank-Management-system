@@ -1,6 +1,7 @@
 import express from "express";
 import {
   adminRegister,
+  getAllUsers,
   login,
   profile,
   staffRegister,
@@ -16,3 +17,4 @@ userRoute.post("/register-admin", authenticate, adminRequired, adminRegister);
 userRoute.post("/register-staff", authenticate, adminRequired, staffRegister);
 userRoute.post("/login", login);
 userRoute.get("/profile", authenticate, profile);
+userRoute.get("/users/stream", authenticate, getAllUsers);
