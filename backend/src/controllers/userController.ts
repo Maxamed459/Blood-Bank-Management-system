@@ -3,6 +3,7 @@ import prisma from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { generateToken } from "../lib/generateToken";
 import { $Enums } from "../generated/prisma";
+import { Readable } from "stream";
 
 interface RegisterRequestBody {
   fullname: string;
@@ -10,6 +11,7 @@ interface RegisterRequestBody {
   username: string;
   password: string;
   blood_type: string;
+  gender: string;
   role: string;
 }
 
@@ -19,12 +21,20 @@ export const userRegister = async (
   res: Response
 ) => {
   try {
-    const { fullname, email, username, password, role, blood_type } = req.body;
-    if (!fullname || !email || !username || !password || !blood_type) {
+    const { fullname, email, username, password, gender, blood_type } =
+      req.body;
+    if (
+      !fullname ||
+      !email ||
+      !username ||
+      !password ||
+      !gender ||
+      !blood_type
+    ) {
       return res.status(400).json({
         success: false,
         message:
-          "fullname, email, username, password, blood_type these fields are required",
+          "fullname, email, username, password, blood_type, gender these fields are required",
       });
     }
     const userExists = await prisma.user.findFirst({
@@ -55,6 +65,7 @@ export const userRegister = async (
         username,
         password: hashedPassword,
         blood_type: blood_type as $Enums.BloodType,
+        gender: gender as $Enums.Gender,
         role: "USER",
       },
       select: {
@@ -64,6 +75,7 @@ export const userRegister = async (
         username: true,
         blood_type: true,
         role: true,
+        gender: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -94,12 +106,20 @@ export const adminRegister = async (
   res: Response
 ) => {
   try {
-    const { fullname, email, username, password, role, blood_type } = req.body;
-    if (!fullname || !email || !username || !password || !blood_type) {
+    const { fullname, email, username, password, gender, blood_type } =
+      req.body;
+    if (
+      !fullname ||
+      !email ||
+      !username ||
+      !password ||
+      !blood_type ||
+      !gender
+    ) {
       return res.status(400).json({
         success: false,
         message:
-          "fullname, email, username, password, blood_type these fields are required",
+          "fullname, email, username, password, blood_type, gender these fields are required",
       });
     }
     const userExists = await prisma.user.findFirst({
@@ -130,6 +150,7 @@ export const adminRegister = async (
         username,
         password: hashedPassword,
         blood_type: blood_type as $Enums.BloodType,
+        gender: gender as $Enums.Gender,
         role: "ADMIN",
       },
       select: {
@@ -169,12 +190,20 @@ export const staffRegister = async (
   res: Response
 ) => {
   try {
-    const { fullname, email, username, password, role, blood_type } = req.body;
-    if (!fullname || !email || !username || !password || !blood_type) {
+    const { fullname, email, username, password, gender, blood_type } =
+      req.body;
+    if (
+      !fullname ||
+      !email ||
+      !username ||
+      !password ||
+      !blood_type ||
+      !gender
+    ) {
       return res.status(400).json({
         success: false,
         message:
-          "fullname, email, username, password, blood_type these fields are required",
+          "fullname, email, username, password, blood_type, gender these fields are required",
       });
     }
     const userExists = await prisma.user.findFirst({
@@ -205,6 +234,7 @@ export const staffRegister = async (
         username,
         password: hashedPassword,
         blood_type: blood_type as $Enums.BloodType,
+        gender: gender as $Enums.Gender,
         role: "STAFF",
       },
       select: {
@@ -225,7 +255,7 @@ export const staffRegister = async (
 
     res.status(201).json({
       success: true,
-      message: "User registered successfully",
+      message: "Staff registered successfully",
       newUser,
       token,
     });
@@ -301,5 +331,52 @@ export const profile = async (req: Request, res: Response) => {
       success: false,
       message: error.message,
     });
+  }
+};
+
+// get all users - admin only
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        fullname: true,
+        email: true,
+        username: true,
+        blood_type: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    res.setHeader("Content-Type", "application/json");
+    res.write(
+      '{"success":true,"message":"Users retrieved successfully","users":['
+    );
+
+    let first = true;
+    const readable = Readable.from(users);
+
+    readable.on("data", (user) => {
+      const chunk = JSON.stringify(user);
+      if (!first) res.write(",");
+      res.write(chunk);
+      first = false;
+    });
+
+    readable.on("end", () => {
+      res.write("]}");
+      res.end();
+    });
+
+    readable.on("error", (err) => {
+      // console.error(err);
+      res
+        .status(500)
+        .json({ success: false, message: "Error streaming users" });
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
