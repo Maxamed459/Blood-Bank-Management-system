@@ -25,3 +25,24 @@ export const adminRequired = (
     });
   }
 };
+
+export const staffRequired = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.user?.role !== "STAFF" && req.user?.role !== "ADMIN") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Admin or Staff only.",
+      });
+    }
+    next();
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
