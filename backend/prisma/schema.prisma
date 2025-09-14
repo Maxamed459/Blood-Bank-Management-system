@@ -43,6 +43,7 @@ enum BloodType {
 enum Role {
   USER
   ADMIN
+  STAFF
 }
 
 model Blood {
