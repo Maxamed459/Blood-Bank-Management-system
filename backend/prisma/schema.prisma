@@ -21,12 +21,18 @@ model User {
   username      String @unique
   password    String
   blood_type BloodType
+  gender Gender
   role Role @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Opposite relation field for Blood.donor
   donatedBlood Blood[]
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
 
 enum BloodType {
@@ -49,7 +55,7 @@ enum Role {
 model Blood {
   id String @id @default(cuid())
   type BloodType
-  quantity Int
+  quantity Float
   // Relationships
   donorId     String?
   donor       User?     @relation(fields: [donorId], references: [id], onDelete: Cascade)
