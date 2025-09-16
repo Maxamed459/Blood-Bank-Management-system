@@ -9,15 +9,27 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import data from "./data.json";
 import { useAppSelector, useAppDispatch } from "@/store";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { loadUserFromStorage } from "@/store/slices/authSlice";
 
 export default function Page() {
-  const { user } = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
+  const { user, loading } = useAppSelector((state) => state.auth);
+  console.log(user);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  if (!user) {
-    router.push("/auth/login");
-    return null;
+  useEffect(() => {
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/auth/login");
+    }
+  }, [loading, user, router]);
+
+  if (loading) {
+    return <p>Loading...</p>; // or a spinner
   }
   return (
     <SidebarProvider

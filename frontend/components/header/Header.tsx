@@ -17,8 +17,12 @@ export default function Header() {
         <Link href="/">contact</Link>
       </nav>
       <div className="flex items-center gap-4">
-        <Button>signUp</Button>
-        <Button>login</Button>
+        <Button>
+          <Link href="/auth/signUp">Get Started</Link>
+        </Button>
+        <Button>
+          <Link href="/auth/login">Login</Link>
+        </Button>
         <ModeToggle />
       </div>
     </div>

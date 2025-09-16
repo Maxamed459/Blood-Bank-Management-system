@@ -31,8 +31,7 @@ export interface ShowPass {
 }
 
 const Registerpage = () => {
-  const { loading, error } = useAppSelector((state) => state.auth);
-  const user = loadUserFromStorage();
+  const { user, loading, error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -79,7 +78,6 @@ const Registerpage = () => {
   };
   if (user) {
     router.push("/dashboard");
-    return null;
   }
   return (
     <div className="flex flex-col items-center justify-center p-5 relative bg-[url(/bg.jpg)] bg-no-repeat bg-cover min-h-screen">
