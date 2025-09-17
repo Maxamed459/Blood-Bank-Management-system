@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,7 +16,7 @@ import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { registerUser, loadUserFromStorage } from "@/store/slices/authSlice";
+import { loadUserFromStorage, registerUser } from "@/store/slices/authSlice";
 
 interface FormData {
   fullname: string;
@@ -30,11 +30,7 @@ export interface ShowPass {
   condition: boolean;
 }
 
-const Registerpage = () => {
-  const { user, loading, error } = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-
+const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [showPass, setShowPass] = useState<ShowPass>({ condition: false });
@@ -45,6 +41,10 @@ const Registerpage = () => {
     blood_type: "",
     gender: "",
   });
+  const { user, loading, error } = useAppSelector((state) => state.auth);
+  console.log(user);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -76,8 +76,19 @@ const Registerpage = () => {
 
     await dispatch(registerUser(finalFormData)).unwrap(); // 👈 call context function
   };
-  if (user) {
-    router.push("/dashboard");
+
+  useEffect(() => {
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [loading, user, router]);
+
+  if (loading) {
+    return <p>Loading...</p>; // or a spinner
   }
   return (
     <div className="flex flex-col items-center justify-center p-5 relative bg-[url(/bg.jpg)] bg-no-repeat bg-cover min-h-screen">
@@ -94,7 +105,9 @@ const Registerpage = () => {
 
         <div className="p-6 w-full md:w-1/2 bg-white border-1 rounded-md border-gray-100/10 shadow-md">
           <div className="mb-8">
-            <h1 className="text-xl font-medium">Create an account</h1>
+            <h1 className="text-xl font-medium text-black">
+              Create an account
+            </h1>
             <p className="text-[11px] text-gray-600">
               Enter your details below to create your account
             </p>
@@ -109,25 +122,25 @@ const Registerpage = () => {
               )}
               <div className="flex items-center w-full gap-5">
                 <div className="space-y-1 w-full">
-                  <Label htmlFor="firstName" className="text-xs ">
+                  <Label htmlFor="firstName" className="text-xs text-black">
                     First name
                   </Label>
                   <Input
                     onChange={(e) => setFirstName(e.target.value)}
                     id="firstName"
-                    className="w-full"
+                    className="w-full border-1 border-slate-600 text-black"
                     type="text"
                     placeholder="mohamed"
                     required
                   />
                 </div>
                 <div className="space-y-1 w-full">
-                  <Label htmlFor="lastName" className="text-xs">
+                  <Label htmlFor="lastName" className="text-xs text-black">
                     Last name
                   </Label>
                   <Input
                     onChange={(e) => setLastName(e.target.value)}
-                    className="w-full"
+                    className="w-full border-1 border-slate-600 text-black"
                     id="lastName"
                     type="text"
                     placeholder="mahdi"
@@ -137,20 +150,21 @@ const Registerpage = () => {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="username" className="text-xs">
+                <Label htmlFor="username" className="text-xs text-black">
                   Username
                 </Label>
                 <Input
                   onChange={handleChange}
                   id="username"
                   type="text"
-                  placeholder="yourusername"
+                  placeholder="your username"
                   required
+                  className="border-1 border-slate-600 text-black"
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="email" className="text-xs">
+                <Label htmlFor="email" className="text-xs text-black">
                   Email
                 </Label>
                 <Input
@@ -159,11 +173,12 @@ const Registerpage = () => {
                   type="email"
                   placeholder="m@example.com"
                   required
+                  className="border-1 border-slate-600 text-black"
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="blood_type" className="text-xs">
+                <Label htmlFor="blood_type" className="text-xs text-black">
                   Blood type
                 </Label>
                 <Select
@@ -171,7 +186,7 @@ const Registerpage = () => {
                     handleSelectChange("blood_type", value)
                   }
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full border-1 border-slate-600 text-black">
                     <SelectValue placeholder="Select Blood type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -189,13 +204,13 @@ const Registerpage = () => {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="gender" className="text-xs">
+                <Label htmlFor="gender" className="text-xs text-black">
                   Gender
                 </Label>
                 <Select
                   onValueChange={(value) => handleSelectChange("gender", value)}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full border-1 border-slate-600 text-black">
                     <SelectValue placeholder="Select a Gender" />
                   </SelectTrigger>
                   <SelectContent>
@@ -209,7 +224,7 @@ const Registerpage = () => {
               </div>
 
               <div className="grid gap-2 relative">
-                <Label htmlFor="password" className="text-xs">
+                <Label htmlFor="password" className="text-xs text-black">
                   Password
                 </Label>
                 <Input
@@ -217,16 +232,17 @@ const Registerpage = () => {
                   id="password"
                   type={showPass.condition ? "text" : "password"}
                   required
+                  className="border-1 border-slate-600 text-black"
                 />
 
                 {showPass.condition ? (
                   <FaEye
-                    className="absolute right-3 top-8.5 cursor-pointer"
+                    className="absolute right-3 top-8.5 cursor-pointer text-black"
                     onClick={() => setShowPass({ condition: false })}
                   />
                 ) : (
                   <FaEyeSlash
-                    className="absolute right-3 top-8.5 cursor-pointer"
+                    className="absolute right-3 top-8.5 cursor-pointer text-black"
                     onClick={() => setShowPass({ condition: true })}
                   />
                 )}
@@ -235,7 +251,7 @@ const Registerpage = () => {
               <div className="grid gap-2">
                 <Button
                   type="submit"
-                  className="w-full bg-[#A30B1C] hover:bg-[#910a1a] disabled:opacity-50"
+                  className="w-full bg-[#A30B1C] hover:bg-[#910a1a] disabled:opacity-50 text-white"
                   disabled={loading}
                 >
                   Create account
@@ -245,7 +261,7 @@ const Registerpage = () => {
           </form>
 
           <div className="flex items-center gap-1 mt-4">
-            <p className="text-sm">Already have an account?</p>
+            <p className="text-sm text-black">Already have an account?</p>
             <button className="text-[#000b58] text-sm font-medium">
               <Link href="/auth/login">Login</Link>
             </button>
@@ -256,4 +272,4 @@ const Registerpage = () => {
   );
 };
 
-export default Registerpage;
+export default RegisterPage;

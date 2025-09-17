@@ -2,11 +2,24 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./slices/authSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
-// configuration
+// safely read from localStorage (only on client)
+const preloadedUser =
+  typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem("user") || "null")
+    : null;
 
+// configuration
 const store = configureStore({
   reducer: {
     auth: authReducer,
+  },
+  preloadedState: {
+    auth: {
+      user: preloadedUser,
+      token: preloadedUser?.token || "",
+      loading: false,
+      error: null,
+    },
   },
 });
 

@@ -42,6 +42,7 @@ export interface AuthState {
     blood_type: BloodType;
     token: string;
   } | null;
+  token: null;
   loading: boolean;
   error: string | null;
 }

@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BASE_URL } from "../BaseUrl";
 import { AuthState, User } from "@/types/types";
+import { string } from "zod";
 
 interface newUser extends User {
   token: string;
@@ -11,6 +12,7 @@ interface newUser extends User {
 // Initial state
 const initialState: AuthState = {
   user: null,
+  token: null,
   loading: false,
   error: null,
 };
@@ -180,6 +182,12 @@ const authSlice = createSlice({
         state.user = JSON.parse(saved);
       }
     },
+    loadTokenFromStorage: (state) => {
+      const saved = localStorage.getItem("token");
+      if (saved) {
+        state.token = JSON.parse(saved);
+      }
+    },
   },
   extraReducers: (builder) => {
     // registerUser
@@ -194,6 +202,7 @@ const authSlice = createSlice({
           state.loading = false;
           state.user = action.payload;
           localStorage.setItem("user", JSON.stringify(action.payload));
+          localStorage.setItem("token", JSON.stringify(action.payload.token));
         }
       )
       .addCase(registerUser.rejected, (state, action) => {
@@ -211,6 +220,7 @@ const authSlice = createSlice({
           state.loading = false;
           state.user = action.payload;
           localStorage.setItem("user", JSON.stringify(action.payload));
+          localStorage.setItem("token", action.payload.token);
         }
       )
       .addCase(registerAdmin.rejected, (state, action) => {
@@ -228,6 +238,7 @@ const authSlice = createSlice({
           state.loading = false;
           state.user = action.payload;
           localStorage.setItem("user", JSON.stringify(action.payload));
+          localStorage.setItem("token", action.payload.token);
         }
       )
       .addCase(registerStaff.rejected, (state, action) => {
@@ -243,6 +254,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         localStorage.setItem("user", JSON.stringify(action.payload));
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -252,5 +264,6 @@ const authSlice = createSlice({
 });
 
 // TODO:4 Export createSlice function as a reducer
-export const { logout, loadUserFromStorage } = authSlice.actions;
+export const { logout, loadUserFromStorage, loadTokenFromStorage } =
+  authSlice.actions;
 export const authReducer = authSlice.reducer;

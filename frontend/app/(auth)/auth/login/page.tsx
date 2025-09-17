@@ -9,7 +9,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ShowPass } from "../signUp/page";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { login } from "@/store/slices/authSlice";
+import { loadUserFromStorage, login } from "@/store/slices/authSlice";
 
 interface FormData {
   email: string;
@@ -20,9 +20,6 @@ const LoginPage = () => {
   const router = useRouter();
   const { user, loading, error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  if (user) {
-    router.push("/dashboard");
-  }
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -45,20 +42,32 @@ const LoginPage = () => {
 
     await dispatch(login(formData)).unwrap();
   };
+  useEffect(() => {
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [loading, user, router]);
+  if (loading) {
+    return <p>Loading...</p>; // or a spinner
+  }
   return (
     <div className="flex items-center justify-center h-screen bg-[url(/bg.jpg)] bg-no-repeat bg-cover min-h-screen">
       <div className="w-1/2">
-        <h1 className="text-center text-3xl font-medium text-white">
-          Create an account
+        <h1 className="text-center text-3xl font-medium text-white mb-4">
+          login with your account
         </h1>
         <p className="text-center text-[15px] text-gray-300">
-          Enter your details below to create your account and donor a blood
+          Enter your details to login your account and donor a blood
         </p>
         {/* logo goes here */}
       </div>
       <div className="shadow-lg max-w-[90%] border-1 bg-white rounded-md border-gray-700/10 p-6 w-lg">
         <div className="space-y-1 mb-6">
-          <h1 className="text-2xl font-medium">Login</h1>
+          <h1 className="text-2xl font-medium text-black">Login</h1>
           <p className="text-[15px] text-gray-600">
             Enter your details below to login your account
           </p>
@@ -72,7 +81,7 @@ const LoginPage = () => {
               </div>
             )}
             <div className="grid gap-2">
-              <Label htmlFor="email" className="text-xs">
+              <Label htmlFor="email" className="text-xs text-black">
                 Email
               </Label>
               <Input
@@ -81,10 +90,11 @@ const LoginPage = () => {
                 type="email"
                 placeholder="m@example.com"
                 required
+                className="border-1 border-slate-600 text-black"
               />
             </div>
             <div className="grid gap-2 relative">
-              <Label htmlFor="password" className="text-xs">
+              <Label htmlFor="password" className="text-xs text-black">
                 Password
               </Label>
               <Input
@@ -92,16 +102,17 @@ const LoginPage = () => {
                 id="password"
                 type={showPass.condition ? "text" : "password"}
                 required
+                className="border-1 border-slate-600 text-black"
               />
 
               {showPass.condition ? (
                 <FaEye
-                  className="absolute right-3 top-8.5 cursor-pointer"
+                  className="absolute right-3 top-8.5 cursor-pointer text-black"
                   onClick={() => setShowPass({ condition: false })}
                 />
               ) : (
                 <FaEyeSlash
-                  className="absolute right-3 top-8.5 cursor-pointer"
+                  className="absolute right-3 top-8.5 cursor-pointer text-black"
                   onClick={() => setShowPass({ condition: true })}
                 />
               )}
@@ -109,7 +120,8 @@ const LoginPage = () => {
             <div className="grid gap-2">
               <Button
                 type="submit"
-                className="w-full bg-[#770411] hover:bg-[#490303]"
+                className="w-full bg-[#A30B1C] hover:bg-[#910a1a] disabled:opacity-50 text-white"
+                disabled={loading}
               >
                 Login
               </Button>
@@ -118,11 +130,8 @@ const LoginPage = () => {
         </form>
         <div className="flex items-center gap-1">
           {" "}
-          <p className="my-4 text-sm">Don`t have an account? </p>
-          <button
-            disabled={loading}
-            className="text-[#000b58] text-sm font-medium disabled:opacity-50"
-          >
+          <p className="my-4 text-sm text-black">Don`t have an account? </p>
+          <button className="text-[#000b58] text-sm font-medium ">
             <Link href="/auth/signUp">register</Link>
           </button>
         </div>
