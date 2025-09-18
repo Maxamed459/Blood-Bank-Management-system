@@ -1,23 +1,19 @@
-export type BloodType = {
-  A_POSITIVE: string;
-  A_NEGATIVE: string;
-  B_POSITIVE: string;
-  B_NEGATIVE: string;
-  O_POSITIVE: string;
-  O_NEGATIVE: string;
-  AB_POSITIVE: string;
-  AB_NEGATIVE: string;
-};
-export type Gender = {
-  MALE: string;
-  FEMALE: string;
-};
-export type Role = {
-  USER: string;
-  ADMIN: string;
-  STAFF: string;
-};
+// Enums instead of object-like types
+export type BloodType =
+  | "A_POSITIVE"
+  | "A_NEGATIVE"
+  | "B_POSITIVE"
+  | "B_NEGATIVE"
+  | "O_POSITIVE"
+  | "O_NEGATIVE"
+  | "AB_POSITIVE"
+  | "AB_NEGATIVE";
 
+export type Gender = "MALE" | "FEMALE";
+
+export type Role = "USER" | "ADMIN" | "STAFF";
+
+// User from backend
 export interface User {
   id: string;
   fullname: string;
@@ -26,23 +22,27 @@ export interface User {
   blood_type: BloodType;
   gender: Gender;
   role: Role;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string; // comes as ISO string, not Date
+  updatedAt: string;
 }
 
-// Types
+// State shape
 export interface AuthState {
-  user: {
-    id: string;
-    fullname: string;
-    email: string;
-    username: string;
-    role: Role;
-    gender: Gender;
-    blood_type: BloodType;
-    token: string;
-  } | null;
-  token: null;
+  user: User | null;
+  token: string | null;
   loading: boolean;
   error: string | null;
+}
+
+export interface LoginAuthResponse {
+  success: boolean;
+  message: string;
+  user: User;
+  token: string;
+}
+export interface RegisterAuthResponse {
+  success: boolean;
+  message: string;
+  newUser: User;
+  token: string;
 }
