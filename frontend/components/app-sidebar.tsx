@@ -2,24 +2,18 @@
 
 import * as React from "react";
 import {
-  IconCamera,
   IconChartBar,
+  IconClipboardPlus,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
   IconHelp,
-  IconInnerShadowTop,
   IconListDetails,
-  IconReport,
   IconSearch,
   IconSettings,
   IconUsers,
+  IconUserStar,
+  IconShield,
 } from "@tabler/icons-react";
 
-import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
@@ -33,21 +27,39 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useAppSelector } from "@/store";
+import Link from "next/link";
+import { MdBloodtype } from "react-icons/md";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
+  navMainAdmin: [
     {
       title: "Dashboard",
       url: "#",
       icon: IconDashboard,
     },
     {
-      title: "Lifecycle",
+      title: "Create admin",
+      url: "#",
+      icon: IconShield,
+    },
+    {
+      title: "Create staff ",
+      url: "#",
+      icon: IconUserStar,
+    },
+
+    {
+      title: "Staff",
+      url: "#",
+      icon: IconUsers,
+    },
+    {
+      title: "Add blood record",
+      url: "#",
+      icon: IconClipboardPlus,
+    },
+    {
+      title: "Donors",
       url: "#",
       icon: IconListDetails,
     },
@@ -57,67 +69,48 @@ const data = {
       icon: IconChartBar,
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
+      title: "Users",
       url: "#",
       icon: IconUsers,
     },
   ],
-  navClouds: [
+  navMainStaff: [
     {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
+      title: "Dashboard",
       url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      icon: IconDashboard,
     },
     {
-      title: "Proposal",
-      icon: IconFileDescription,
+      title: "Add blood record",
       url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      icon: IconUsers,
     },
     {
-      title: "Prompts",
-      icon: IconFileAi,
+      title: "Donors",
       url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      icon: IconListDetails,
+    },
+    {
+      title: "Analytics",
+      url: "#",
+      icon: IconChartBar,
+    },
+  ],
+  navMainUser: [
+    {
+      title: "Dashboard",
+      url: "#",
+      icon: IconDashboard,
+    },
+    {
+      title: "Analytics",
+      url: "#",
+      icon: IconChartBar,
     },
   ],
   navSecondary: [
     {
-      title: "Settings",
+      title: "setting",
       url: "#",
       icon: IconSettings,
     },
@@ -130,23 +123,6 @@ const data = {
       title: "Search",
       url: "#",
       icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
     },
   ],
 };
@@ -162,17 +138,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              <Link href="#">
+                <MdBloodtype className="!size-5" />
+                <span className="text-base font-semibold">Bloody</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        <NavMain
+          items={
+            user?.role === "ADMIN"
+              ? data.navMainAdmin
+              : user?.role === "STAFF"
+              ? data.navMainStaff
+              : user?.role === "USER"
+              ? data.navMainUser
+              : []
+          }
+        />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
