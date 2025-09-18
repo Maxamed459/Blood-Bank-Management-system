@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import Header from "@/components/header/Header";
-import { Provider } from "react-redux";
-import store from "@/store";
+import Link from "next/link";
+import Image from "next/image";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,15 +31,52 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header className="">
-          <Header />
-        </header>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <header className="flex items-center justify-between px-6 py-4 border-b">
+            <div className="flex items-center gap-2">
+              <Image
+                src="/next.svg"
+                alt="Logo"
+                width={28}
+                height={28}
+                className="dark:invert"
+              />
+              <span className="font-semibold">Blood Bank</span>
+            </div>
+            <nav className="flex items-center gap-3">
+              <Link
+                className="text-sm text-muted-foreground hover:underline"
+                href="#features"
+              >
+                Features
+              </Link>
+              <Link
+                className="text-sm text-muted-foreground hover:underline"
+                href="#roles"
+              >
+                Roles
+              </Link>
+              <Link
+                className="text-sm text-muted-foreground hover:underline"
+                href="/auth/login"
+              >
+                Login
+              </Link>
+              <Link
+                className="text-sm rounded-md px-3 py-1.5 bg-primary text-primary-foreground"
+                href="/auth/signUp"
+              >
+                Sign Up
+              </Link>
+              <ModeToggle />
+            </nav>
+          </header>
+
           {children}
         </ThemeProvider>
       </body>
