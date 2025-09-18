@@ -2,12 +2,8 @@
 import axios, { AxiosError } from "axios";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BASE_URL } from "../BaseUrl";
-import { AuthState, User } from "@/types/types";
-import { string } from "zod";
-
-interface newUser extends User {
-  token: string;
-}
+import { AuthState, RegisterAuthResponse } from "@/types/types";
+import { redirect } from "next/navigation";
 
 // Initial state
 const initialState: AuthState = {
@@ -175,6 +171,7 @@ const authSlice = createSlice({
       // Optional: clear token from localStorage
       localStorage.removeItem("user");
       localStorage.removeItem("token");
+      redirect("/auth/login");
     },
     loadUserFromStorage: (state) => {
       const saved = localStorage.getItem("user");
@@ -198,11 +195,11 @@ const authSlice = createSlice({
       })
       .addCase(
         registerUser.fulfilled,
-        (state, action: PayloadAction<newUser>) => {
+        (state, action: PayloadAction<RegisterAuthResponse>) => {
           state.loading = false;
-          state.user = action.payload;
-          localStorage.setItem("user", JSON.stringify(action.payload));
-          localStorage.setItem("token", JSON.stringify(action.payload.token));
+          state.user = action.payload.newUser;
+          localStorage.setItem("user", JSON.stringify(action.payload.newUser));
+          localStorage.setItem("token", action.payload.token);
         }
       )
       .addCase(registerUser.rejected, (state, action) => {
@@ -216,10 +213,10 @@ const authSlice = createSlice({
       })
       .addCase(
         registerAdmin.fulfilled,
-        (state, action: PayloadAction<newUser>) => {
+        (state, action: PayloadAction<RegisterAuthResponse>) => {
           state.loading = false;
-          state.user = action.payload;
-          localStorage.setItem("user", JSON.stringify(action.payload));
+          state.user = action.payload.newUser;
+          localStorage.setItem("user", JSON.stringify(action.payload.newUser));
           localStorage.setItem("token", action.payload.token);
         }
       )
@@ -234,10 +231,10 @@ const authSlice = createSlice({
       })
       .addCase(
         registerStaff.fulfilled,
-        (state, action: PayloadAction<newUser>) => {
+        (state, action: PayloadAction<RegisterAuthResponse>) => {
           state.loading = false;
-          state.user = action.payload;
-          localStorage.setItem("user", JSON.stringify(action.payload));
+          state.user = action.payload.newUser;
+          localStorage.setItem("user", JSON.stringify(action.payload.newUser));
           localStorage.setItem("token", action.payload.token);
         }
       )
@@ -253,7 +250,7 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        localStorage.setItem("user", JSON.stringify(action.payload));
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
         localStorage.setItem("token", action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
