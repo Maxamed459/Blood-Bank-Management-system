@@ -17,6 +17,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { loadUserFromStorage, registerUser } from "@/store/slices/authSlice";
+import toast from "react-hot-toast";
 
 interface FormData {
   fullname: string;
@@ -74,7 +75,19 @@ const RegisterPage = () => {
       fullname: fullNameCombined,
     };
 
-    await dispatch(registerUser(finalFormData)).unwrap(); // 👈 call context function
+    const registerPromise = dispatch(registerUser(finalFormData)).unwrap(); // 👈 call context function
+
+    try {
+      await toast.promise(registerPromise, {
+        loading: "signing in...",
+        success: <b>Welcome {user?.username}</b>,
+        error: <b>{error}</b>,
+      });
+
+      router.push("/dashboard");
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
   };
 
   useEffect(() => {
@@ -86,10 +99,6 @@ const RegisterPage = () => {
       router.push("/dashboard");
     }
   }, [loading, user, router]);
-
-  if (loading) {
-    return <p>Loading...</p>; // or a spinner
-  }
   return (
     <div className="flex flex-col items-center justify-center p-5 relative bg-[url(/bg.jpg)] bg-no-repeat bg-cover min-h-screen">
       <div className="flex items-center border-1 mt-10 w-full px-20  border-gray-700/10 overflow-hidden">
