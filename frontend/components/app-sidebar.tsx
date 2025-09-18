@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useAppSelector } from "@/store";
 import Link from "next/link";
-import { MdBloodtype } from "react-icons/md";
+import Image from "next/image";
 
 const data = {
   navMainAdmin: [
@@ -136,11 +136,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="data-[slot=sidebar-menu-button]:!p-6"
             >
               <Link href="#">
-                <MdBloodtype className="!size-5" />
-                <span className="text-base font-semibold">Bloody</span>
+                <Image
+                  src="/logo-white.png"
+                  alt="Logo"
+                  width={130}
+                  height={18}
+                  className="block dark:hidden"
+                />
+                <Image
+                  src="/logo-dark.png"
+                  alt="Logo Dark"
+                  width={130}
+                  height={18}
+                  className="hidden dark:block"
+                />
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

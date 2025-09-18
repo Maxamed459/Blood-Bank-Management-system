@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { loadUserFromStorage, registerUser } from "@/store/slices/authSlice";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface FormData {
   fullname: string;
@@ -102,14 +103,22 @@ const RegisterPage = () => {
   return (
     <div className="flex flex-col items-center justify-center p-5 relative bg-[url(/bg.jpg)] bg-no-repeat bg-cover min-h-screen">
       <div className="flex items-center border-1 mt-10 w-full px-20  border-gray-700/10 overflow-hidden">
-        <div className="w-1/2">
-          <h1 className="text-center text-3xl font-medium text-white">
-            Create an account
-          </h1>
-          <p className="text-center text-[15px] text-gray-300">
-            Enter your details below to create your account and donor a blood
-          </p>
-          {/* logo goes here */}
+        <div className="w-1/2 flex flex-col items-center">
+          <Image
+            src="/authLogo.png"
+            alt="Logo"
+            width={300}
+            height={80}
+            className="mb-4"
+          />
+          <div>
+            <h1 className="text-center text-3xl font-medium text-white">
+              Create an account
+            </h1>
+            <p className="text-center text-[15px] text-gray-300">
+              Enter your details below to create your account and donor a blood
+            </p>
+          </div>
         </div>
 
         <div className="p-6 w-full md:w-1/2 bg-white border-1 rounded-md border-gray-100/10 shadow-md">
