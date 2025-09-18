@@ -9,6 +9,7 @@ import { ShowPass } from "../signUp/page";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { loadUserFromStorage, login } from "@/store/slices/authSlice";
+import toast from "react-hot-toast";
 
 interface FormData {
   email: string;
@@ -39,7 +40,19 @@ const LoginPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await dispatch(login(formData)).unwrap();
+    const loginPromise = dispatch(login(formData)).unwrap();
+
+    try {
+      await toast.promise(loginPromise, {
+        loading: "Logging in...",
+        success: <b>Welcome back!</b>,
+        error: <b>{error}</b>,
+      });
+
+      router.push("/dashboard");
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
   };
   useEffect(() => {
     dispatch(loadUserFromStorage());
@@ -50,9 +63,6 @@ const LoginPage = () => {
       router.push("/dashboard");
     }
   }, [loading, user, router]);
-  if (loading) {
-    return <p>Loading...</p>; // or a spinner
-  }
   return (
     <div className="flex items-center justify-center h-screen bg-[url(/bg.jpg)] bg-no-repeat bg-cover min-h-screen">
       <div className="w-1/2">
@@ -74,11 +84,6 @@ const LoginPage = () => {
 
         <form className="w-full" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
-            {error && (
-              <div className="bg-red-200 text-red-800 border-1 border-red-800 p-4">
-                <p className="text-sm">{error}</p>
-              </div>
-            )}
             <div className="grid gap-2">
               <Label htmlFor="email" className="text-xs text-black">
                 Email
