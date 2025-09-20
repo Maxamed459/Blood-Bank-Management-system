@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 const initialState: AuthState = {
   user: null,
   token: null,
+  staff: [],
   loading: false,
   error: null,
 };
@@ -160,6 +161,22 @@ export const profile = createAsyncThunk("auth/profile", async () => {
   }
 });
 
+// get all staff
+export const getStaff = createAsyncThunk("auth/getStaff", async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.get(`${BASE_URL}/auth/staff`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ message: string }>;
+    return axiosError.response?.data?.message || axiosError.message;
+  }
+});
+
 // TODO:3 setup "createSlice" function
 const authSlice = createSlice({
   name: "auth",
@@ -211,15 +228,9 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(
-        registerAdmin.fulfilled,
-        (state, action: PayloadAction<RegisterAuthResponse>) => {
-          state.loading = false;
-          state.user = action.payload.newUser;
-          localStorage.setItem("user", JSON.stringify(action.payload.newUser));
-          localStorage.setItem("token", action.payload.token);
-        }
-      )
+      .addCase(registerAdmin.fulfilled, (state) => {
+        state.loading = false;
+      })
       .addCase(registerAdmin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
@@ -229,15 +240,9 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(
-        registerStaff.fulfilled,
-        (state, action: PayloadAction<RegisterAuthResponse>) => {
-          state.loading = false;
-          state.user = action.payload.newUser;
-          localStorage.setItem("user", JSON.stringify(action.payload.newUser));
-          localStorage.setItem("token", action.payload.token);
-        }
-      )
+      .addCase(registerStaff.fulfilled, (state) => {
+        state.loading = false;
+      })
       .addCase(registerStaff.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
@@ -254,6 +259,30 @@ const authSlice = createSlice({
         localStorage.setItem("token", action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(profile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(profile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+      })
+      .addCase(profile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(getStaff.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getStaff.fulfilled, (state, action) => {
+        state.loading = false;
+        state.staff = action.payload.staff;
+      })
+      .addCase(getStaff.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
