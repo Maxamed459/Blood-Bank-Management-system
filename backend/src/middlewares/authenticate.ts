@@ -40,6 +40,7 @@ export const authenticate = async (
         username: true,
         blood_type: true,
         role: true,
+        gender: true,
         createdAt: true,
         updatedAt: true,
       },
