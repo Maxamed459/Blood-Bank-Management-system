@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/sidebar";
 import { User } from "@/types/types";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function NavUser({ user }: { user: User | null }) {
   const { isMobile } = useSidebar();
@@ -78,8 +79,13 @@ export function NavUser({ user }: { user: User | null }) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <IconUserCircle />
-                Account
+                <Link
+                  href="/dashboard/profile"
+                  className="flex gap-1 items-center"
+                >
+                  <IconUserCircle />
+                  Account
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

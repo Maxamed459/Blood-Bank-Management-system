@@ -65,7 +65,7 @@ const LoginPage = () => {
     }
   }, [loading, user, router]);
   return (
-    <div className="flex items-center justify-center h-screen bg-[url(/bg.jpg)] bg-no-repeat bg-cover min-h-screen">
+    <div className="flex flex-col md:flex-row items-center justify-center h-screen bg-[url(/bg.jpg)] bg-no-repeat bg-cover min-h-screen">
       <div className="w-1/2 flex flex-col items-center">
         <Image
           src="/authLogo.png"
@@ -74,7 +74,7 @@ const LoginPage = () => {
           height={80}
           className="mb-4"
         />
-        <div>
+        <div className="hidden md:block">
           <h1 className="text-center text-3xl font-medium text-white mb-2">
             login with your account
           </h1>
@@ -93,6 +93,11 @@ const LoginPage = () => {
 
         <form className="w-full" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
+            {error && (
+              <div className="bg-red-200 text-red-800 border-1 border-red-800 p-4">
+                <p className="text-sm">{error}</p>
+              </div>
+            )}
             <div className="grid gap-2">
               <Label htmlFor="email" className="text-xs text-black">
                 Email

@@ -34,23 +34,23 @@ const data = {
   navMainAdmin: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: IconDashboard,
     },
     {
       title: "Create admin",
-      url: "#",
+      url: "/dashboard/create-admin",
       icon: IconShield,
     },
     {
       title: "Create staff ",
-      url: "#",
+      url: "/dashboard/create-staff",
       icon: IconUserStar,
     },
 
     {
       title: "Staff",
-      url: "#",
+      url: "/dashboard/staff",
       icon: IconUsers,
     },
     {
@@ -77,7 +77,7 @@ const data = {
   navMainStaff: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: IconDashboard,
     },
     {
@@ -99,7 +99,7 @@ const data = {
   navMainUser: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: IconDashboard,
     },
     {
