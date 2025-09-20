@@ -304,6 +304,7 @@ export const login = async (req: Request, res: Response) => {
         username: user.username,
         blood_type: user.blood_type,
         role: user.role,
+        gender: user.gender,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
       },
@@ -378,5 +379,32 @@ export const getAllUsers = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// get all staff - admin only
+export const getAllStaff = async (req: Request, res: Response) => {
+  try {
+    const allStaff = await prisma.user.findMany({
+      where: {
+        role: "STAFF",
+      },
+    });
+    if (allStaff.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Staff not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Here are all the staffs",
+      staff: allStaff,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
