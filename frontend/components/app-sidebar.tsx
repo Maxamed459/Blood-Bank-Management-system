@@ -12,6 +12,7 @@ import {
   IconUsers,
   IconUserStar,
   IconShield,
+  IconDropletQuestion,
 } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -55,7 +56,7 @@ const data = {
     },
     {
       title: "Add blood record",
-      url: "#",
+      url: "/dashboard/blood-record",
       icon: IconClipboardPlus,
     },
     {
@@ -64,9 +65,9 @@ const data = {
       icon: IconListDetails,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: "Request Blood",
+      url: "/dashboard/request-blood",
+      icon: IconDropletQuestion,
     },
     {
       title: "Users",
@@ -82,13 +83,18 @@ const data = {
     },
     {
       title: "Add blood record",
-      url: "#",
+      url: "/dashboard/blood-record",
       icon: IconUsers,
     },
     {
       title: "Donors",
       url: "#",
       icon: IconListDetails,
+    },
+    {
+      title: "Request Blood",
+      url: "/dashboard/request-blood",
+      icon: IconDropletQuestion,
     },
     {
       title: "Analytics",
@@ -106,6 +112,11 @@ const data = {
       title: "Analytics",
       url: "#",
       icon: IconChartBar,
+    },
+    {
+      title: "Request Blood",
+      url: "/dashboard/request-blood",
+      icon: IconDropletQuestion,
     },
   ],
   navSecondary: [

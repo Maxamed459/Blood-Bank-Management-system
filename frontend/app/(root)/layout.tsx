@@ -57,6 +57,12 @@ export default function RootLayout({
             <nav className="flex items-center gap-3">
               <Link
                 className="text-sm text-muted-foreground hover:underline"
+                href="/dashboard"
+              >
+                Dashboard
+              </Link>
+              <Link
+                className="text-sm text-muted-foreground hover:underline"
                 href="#features"
               >
                 Features
