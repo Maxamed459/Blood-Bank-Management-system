@@ -77,7 +77,7 @@ const RequestForm = () => {
   }, [dispatch]);
   return (
     <div className="flex flex-col items-center justify-center py-5 px-4 md:px-10 lg:px-20">
-      {user?.role !== "ADMIN" && (
+      {user?.role !== "ADMIN" && user?.role !== "STAFF" && (
         <div
           className={`${
             showNotification ? "block" : "hidden"
