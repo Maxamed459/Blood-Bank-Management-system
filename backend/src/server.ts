@@ -3,6 +3,7 @@ import { userRoute } from "./routes/userRoute";
 import cors from "cors";
 import { PORT } from "./config/config";
 import { bloodRouter } from "./routes/bloodRoute";
+import { requestRouter } from "./routes/requestRoute";
 
 const app = express();
 app.use(express.json());
@@ -27,6 +28,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/auth", userRoute);
 app.use("/api/blood", bloodRouter);
+app.use("/api/request", requestRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({
