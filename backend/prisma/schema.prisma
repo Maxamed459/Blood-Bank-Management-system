@@ -28,6 +28,7 @@ model User {
 
   // Opposite relation field for Blood.donor
   donatedBlood Blood[]
+  requestedBlood Request[]
 }
 
 enum Gender {
@@ -52,6 +53,12 @@ enum Role {
   STAFF
 }
 
+enum Status {
+  PENDING
+  REJECTED
+  APPROVED
+}
+
 model Blood {
   id String @id @default(cuid())
   type BloodType
@@ -59,6 +66,18 @@ model Blood {
   // Relationships
   donorId     String?
   donor       User?     @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Request {
+  id String @id @default(cuid())
+  requester_id String
+  request User? @relation(fields: [requester_id], references: [id], onDelete: Cascade)
+  blood_type BloodType
+  quantity_needed Float
+  hospital String
+  status Status @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
