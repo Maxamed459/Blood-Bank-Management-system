@@ -20,9 +20,12 @@ export async function addingBlood(
 export async function gettingAllBlood() {
   return await prisma.blood.findMany({
     select: {
+      id: true,
       type: true,
       quantity: true,
       donorId: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 }
@@ -32,6 +35,14 @@ export async function gettingBloodById(id: string) {
   return await prisma.blood.findUnique({
     where: {
       id,
+    },
+    select: {
+      id: true,
+      type: true,
+      quantity: true,
+      donorId: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 }
@@ -69,6 +80,14 @@ export async function gettingBloodByType(type: string) {
   return await prisma.blood.findMany({
     where: {
       type: type as $Enums.BloodType,
+    },
+    select: {
+      id: true,
+      type: true,
+      quantity: true,
+      donorId: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 }
