@@ -25,19 +25,17 @@ export default function Page() {
     dispatch(loadUserFromStorage());
     const fetchBlood = async () => {
       const bloods = await dispatch(getAllBloodRecord()).unwrap();
-      console.log("Here are the bloods", bloods);
       setBlood(bloods.data);
     };
 
     const fetchRequests = async () => {
       const requests = await dispatch(getAllRequests()).unwrap();
-      console.log("here are the requests: ", requests);
       setRequests(requests.data);
     };
 
     fetchBlood();
     fetchRequests();
-  }, [dispatch]);
+  }, [dispatch, requests]);
 
   useEffect(() => {
     if (!loading && !user) {

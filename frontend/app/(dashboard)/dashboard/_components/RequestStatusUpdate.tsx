@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { updateRequest } from "@/store/slices/requestSlice";
 import { Request } from "@/types/types";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -18,7 +19,6 @@ export default function RequestStatusUpdate({
   className: string;
   status: string;
 }) {
-  const [requests, setRequests] = useState<Request[]>([]);
   const { error, loading } = useAppSelector((state) => state.request);
 
   const dispatch = useAppDispatch();
