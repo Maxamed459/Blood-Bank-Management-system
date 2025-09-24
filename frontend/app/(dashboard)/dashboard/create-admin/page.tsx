@@ -1,4 +1,4 @@
-import RegisterAdmin from "../../_components/RegisterAdmin";
+import RegisterAdmin from "../_components/RegisterAdmin";
 
 export const metadata = {
   title: "Create Admin Account",
