@@ -23,6 +23,7 @@ export const addingRequest = async (
 export const gettingRequest = async () => {
   return await prisma.request.findMany({
     select: {
+      id: true,
       requester_id: true,
       blood_type: true,
       quantity_needed: true,
