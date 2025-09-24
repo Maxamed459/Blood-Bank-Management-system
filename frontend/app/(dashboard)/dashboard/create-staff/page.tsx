@@ -1,4 +1,4 @@
-import RegisterStaff from "../../_components/RegisterStaff";
+import RegisterStaff from "../_components/RegisterStaff";
 
 export const metadata = {
   title: "Create Staff Account",
