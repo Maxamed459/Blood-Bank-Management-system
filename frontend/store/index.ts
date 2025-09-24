@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./slices/authSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { bloodReducer } from "./slices/bloodSlice";
+import { requestReducer } from "./slices/requestSlice";
 
 // safely read from localStorage (only on client)
 const preloadedUser =
@@ -8,15 +10,23 @@ const preloadedUser =
     ? JSON.parse(localStorage.getItem("user") || "null")
     : null;
 
+const preloadedToken =
+  typeof window !== "undefined"
+    ? localStorage.getItem("token") || "null"
+    : null;
+
 // configuration
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    blood: bloodReducer,
+    request: requestReducer,
   },
   preloadedState: {
     auth: {
       user: preloadedUser,
-      token: preloadedUser?.token || "",
+      staff: preloadedUser?.staff || "",
+      token: preloadedToken,
       loading: false,
       error: null,
     },
