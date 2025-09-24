@@ -1,10 +1,10 @@
-import Staff from "../../_components/Staff";
+import Staff from "../_components/Staff";
 
 export const metadata = {
   title: "Staff",
   description: "get all staff.",
 };
 
-export default function createAdminAccount() {
+export default function DisplayStaff() {
   return <Staff />;
 }
