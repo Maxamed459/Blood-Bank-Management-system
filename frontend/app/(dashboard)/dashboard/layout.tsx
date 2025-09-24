@@ -8,6 +8,7 @@ import { ToasterProvider } from "@/components/providers/toester-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,7 +48,7 @@ export default function RootLayout({
               <AppSidebar variant="inset" />
               <SidebarInset>
                 <SiteHeader />
-                {children}
+                <Suspense fallback={<b>Loading...</b>}>{children}</Suspense>
               </SidebarInset>
             </SidebarProvider>
             <ToasterProvider />
