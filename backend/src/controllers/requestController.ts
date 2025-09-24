@@ -107,22 +107,19 @@ export const getRequestByBloodType = async (req: Request, res: Response) => {
   }
 };
 // update request
-export const updateRequest = async (req: Request, res: Response) => {
+export const updateRequestStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { blood_type, quantity_needed, hospital, status } = req.body;
+    const { status } = req.body;
     const updatedRequest = await prisma.request.update({
       where: { id },
       data: {
-        blood_type,
-        quantity_needed,
-        hospital,
         status,
       },
     });
     res.status(200).json({
       success: true,
-      message: "request updated successfully",
+      message: "request status updated successfully",
       data: updatedRequest,
     });
   } catch (error: any) {
