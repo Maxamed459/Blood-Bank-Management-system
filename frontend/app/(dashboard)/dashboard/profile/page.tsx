@@ -1,4 +1,4 @@
-import ProfileForm from "../../_components/ProfileForm";
+import ProfileForm from "../_components/ProfileForm";
 
 export default async function ProfilePage() {
   return (
