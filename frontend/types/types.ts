@@ -26,11 +26,43 @@ export interface User {
   updatedAt: string;
 }
 
+export interface Blood {
+  id: string;
+  type: BloodType;
+  quantity: number;
+  donorId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Request {
+  id: string;
+  requester_id: string;
+  blood_type: BloodType;
+  quantity_needed: number;
+  hospital: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // State shape
 export interface AuthState {
   user: User | null;
   token: string | null;
   staff: User[] | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export interface BloodState {
+  blood: Blood | Blood[] | null;
+  loading: boolean;
+  error: string | null;
+}
+export interface RequestState {
+  request: Request[] | null;
+  currentRequest: Request | null;
   loading: boolean;
   error: string | null;
 }
@@ -46,4 +78,19 @@ export interface RegisterAuthResponse {
   message: string;
   newUser: User;
   token: string;
+}
+
+export interface addBloodRecordResponse {
+  success: boolean;
+  message: string;
+  data: [
+    {
+      id: string;
+      type: BloodType;
+      quantity: number;
+      donorId: string;
+      createdAt: string;
+      updatedAt: string;
+    }
+  ];
 }
