@@ -1,4 +1,4 @@
-import AddBloodRecord from "../../_components/AddBloodRecord";
+import AddBloodRecord from "../_components/AddBloodRecord";
 
 export default function BloodRecord() {
   return (
