@@ -31,9 +31,27 @@ export const welcomeEmail = async (userEmail: string, fullname: string) => {
   let email = {
     body: {
       name: fullname,
-      intro: "Welcome to the Blood Donation Platform!",
-      text: "Since you registered, you can donate blood and also request blood. You will receive an email whenever someone requests your blood type.",
-      outro: "Donate Blood. Save Lives ❤️",
+      intro: `
+      <div style="text-align:center; margin-bottom:20px;">
+        <img src="https://raw.githubusercontent.com/Maxamed459/Blood-Bank-Management-system/main/frontend/public/logo-white.png" 
+             alt="Blood Donation Platform Logo" 
+             width="140" />
+      </div>
+      <h2 style="text-align:center; color:#d32f2f;">Welcome to the Blood Donation Platform 🎉</h2>
+    `,
+      table: {
+        data: [
+          {
+            message:
+              "We’re excited to have you onboard! As a registered member, you can request blood when needed and donate to others in urgent need.",
+          },
+          {
+            message:
+              "Whenever someone requests your blood type, you’ll receive an instant email notification so you can step in and help at the right time.",
+          },
+        ],
+      },
+      outro: "Together, we make a difference. Donate Blood. Save Lives ❤️",
     },
   };
 
