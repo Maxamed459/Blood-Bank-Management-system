@@ -190,7 +190,7 @@ Authorization: Bearer <jwt_token>
 ---
 
 ### GET `/api/auth/users/stream`
-Get all users (streaming response). **Requires authentication.**
+Get all users (streaming response). **Requires authentication and admin role.**
 
 **Headers:**
 ```
@@ -220,6 +220,45 @@ Authorization: Bearer <jwt_token>
 **Status Codes:**
 - `200` - Users retrieved successfully
 - `401` - Authentication required
+- `403` - Admin access required
+- `500` - Internal server error
+
+---
+
+### GET `/api/auth/staff`
+Get all staff users. **Requires authentication and admin role.**
+
+**Headers:**
+```
+Authorization: Bearer <admin_jwt_token>
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Here are all the staffs",
+  "staff": [
+    {
+      "id": "staff_user_id",
+      "fullname": "Jane Smith",
+      "email": "jane@example.com",
+      "username": "janesmith",
+      "blood_type": "A_POSITIVE",
+      "role": "STAFF",
+      "gender": "FEMALE",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+**Status Codes:**
+- `200` - Staff retrieved successfully
+- `401` - Authentication required
+- `403` - Admin access required
+- `404` - Staff not found
 - `500` - Internal server error
 
 ## 🩸 Blood Management Endpoints
@@ -263,6 +302,186 @@ Authorization: Bearer <staff_or_admin_jwt_token>
 - `401` - Authentication required
 - `403` - Staff/Admin access required
 - `404` - Donor not found
+- `500` - Internal server error
+
+---
+
+## 🧾 Request Management Endpoints
+
+Base path: `/api/request`
+
+### POST `/api/request`
+Create a new blood request. **Requires authentication.**
+
+Behavior:
+- Requests created by `ADMIN` or `STAFF` are automatically created with status `APPROVED` and donor notification emails are sent to matching blood type donors.
+- Requests created by `USER` are created with status `PENDING`.
+
+**Headers:**
+```
+Authorization: Bearer <jwt_token>
+```
+
+**Request Body:**
+```json
+{
+  "blood_type": "O_POSITIVE",
+  "quantity_needed": 2,
+  "hospital": "City Hospital"
+}
+```
+
+**Response (201):**
+```json
+{
+  "success": true,
+  "message": "request sent successfully",
+  "data": {
+    "id": "request_id",
+    "requester_id": "user_id",
+    "blood_type": "O_POSITIVE",
+    "quantity_needed": 2,
+    "hospital": "City Hospital",
+    "status": "PENDING"
+  }
+}
+```
+
+**Status Codes:**
+- `201` - Request created successfully
+- `400` - Missing fields or invalid quantity
+- `401` - Authentication required
+- `404` - No matching donors found when auto-approving
+- `500` - Internal server error
+
+---
+
+### GET `/api/request`
+Get all blood requests. **Requires authentication.**
+
+**Headers:**
+```
+Authorization: Bearer <jwt_token>
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "here are the all request",
+  "data": [
+    {
+      "id": "request_id",
+      "blood_type": "O_POSITIVE",
+      "quantity_needed": 2,
+      "hospital": "City Hospital",
+      "status": "PENDING"
+    }
+  ]
+}
+```
+
+**Status Codes:**
+- `200` - Requests retrieved successfully
+- `401` - Authentication required
+- `404` - No requests found
+- `500` - Internal server error
+
+---
+
+### GET `/api/request/type/:type`
+Get blood requests filtered by blood type. **Requires authentication.**
+
+**Headers:**
+```
+Authorization: Bearer <jwt_token>
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "here are the all request for this blood type",
+  "data": [
+    {
+      "id": "request_id",
+      "blood_type": "O_POSITIVE",
+      "quantity_needed": 2,
+      "hospital": "City Hospital",
+      "status": "PENDING"
+    }
+  ]
+}
+```
+
+**Status Codes:**
+- `200` - Requests retrieved successfully
+- `401` - Authentication required
+- `404` - No requests found for specified type
+- `500` - Internal server error
+
+---
+
+### PUT `/api/request/:id`
+Update request status. **Requires authentication and staff/admin role.**
+
+Behavior:
+- When status is set to `APPROVED`, donor notification emails are sent to matching donors. If no donors match, a 404 is returned.
+
+**Headers:**
+```
+Authorization: Bearer <staff_or_admin_jwt_token>
+```
+
+**Request Body:**
+```json
+{
+  "status": "APPROVED" // or PENDING, REJECTED
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "request status updated successfully",
+  "data": {
+    "id": "request_id",
+    "status": "APPROVED"
+  }
+}
+```
+
+**Status Codes:**
+- `200` - Request updated successfully
+- `401` - Authentication required
+- `403` - Staff/Admin access required
+- `404` - No matching donors found when approving
+- `500` - Internal server error
+
+---
+
+### DELETE `/api/request/:id`
+Delete a request. **Requires authentication.**
+
+Note: As currently implemented, any authenticated user can delete a request by ID.
+
+**Headers:**
+```
+Authorization: Bearer <jwt_token>
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "request deleted successfully"
+}
+```
+
+**Status Codes:**
+- `200` - Request deleted successfully
+- `401` - Authentication required
 - `500` - Internal server error
 
 ---
@@ -497,8 +716,13 @@ Authorization: Bearer <staff_or_admin_jwt_token>
 | `/api/auth/profile` | ✅ | ✅ | ✅ |
 | `/api/auth/register-admin` | ❌ | ❌ | ✅ |
 | `/api/auth/register-staff` | ❌ | ❌ | ✅ |
-| `/api/auth/users/stream` | ✅ | ✅ | ✅ |
+| `/api/auth/users/stream` | ❌ | ❌ | ✅ |
+| `/api/auth/staff` | ❌ | ❌ | ✅ |
 | `/api/blood/*` | ❌ | ✅ | ✅ |
+| `/api/request` (POST, GET) | ✅ | ✅ | ✅ |
+| `/api/request/type/:type` | ✅ | ✅ | ✅ |
+| `/api/request/:id` (PUT) | ❌ | ✅ | ✅ |
+| `/api/request/:id` (DELETE) | ✅ | ✅ | ✅ |
 
 ## 📝 Error Handling
 
