@@ -1,6 +1,4 @@
 "use client";
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { useAppSelector, useAppDispatch } from "@/store";
 import { useRouter } from "next/navigation";
@@ -10,7 +8,6 @@ import { getAllBloodRecord } from "@/store/slices/bloodSlice";
 import { Blood, Request } from "@/types/types";
 import { formatDataTime } from "@/app/lib/formatData";
 import { getAllRequests } from "@/store/slices/requestSlice";
-import { Button } from "@/components/ui/button";
 import RequestStatusUpdate from "./_components/RequestStatusUpdate";
 
 export default function Page() {
@@ -59,7 +56,7 @@ export default function Page() {
                   Here are the requests that needs to approve
                 </h2>
                 <div className="overflow-auto rounded-md border">
-                  <table className="min-w-[800px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+                  <table className="min-w-[950px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
                     <thead>
                       <tr>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
@@ -109,22 +106,26 @@ export default function Page() {
                               <td className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-200">
                                 {formatDataTime(request.createdAt)}
                               </td>
-                              <td>
-                                <RequestStatusUpdate
-                                  id={request.id}
-                                  title="APPROVE"
-                                  className="bg-green-400 hover:bg-green-600 mx-2"
-                                  status="APPROVED"
-                                />
-                              </td>
-                              <td>
-                                <RequestStatusUpdate
-                                  id={request.id}
-                                  title="REJECT"
-                                  className="bg-red-400 hover:bg-red-600 mx-2"
-                                  status="REJECTED"
-                                />
-                              </td>
+                              {user?.role === "ADMIN" && (
+                                <>
+                                  <td>
+                                    <RequestStatusUpdate
+                                      id={request.id}
+                                      title="APPROVE"
+                                      className="bg-green-400 hover:bg-green-600 mx-2"
+                                      status="APPROVED"
+                                    />
+                                  </td>
+                                  <td>
+                                    <RequestStatusUpdate
+                                      id={request.id}
+                                      title="REJECT"
+                                      className="bg-red-400 hover:bg-red-600 mx-2"
+                                      status="REJECTED"
+                                    />
+                                  </td>
+                                </>
+                              )}
                             </tr>
                           ))
                       ) : (
@@ -145,7 +146,7 @@ export default function Page() {
                   Blood Donation Record
                 </h2>
                 <div className="overflow-auto rounded-md border">
-                  <table className="min-w-[900px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+                  <table className="min-w-[950px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
                     <thead>
                       <tr>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
@@ -219,7 +220,7 @@ export default function Page() {
                 Blood Requests please donate if you have those blood type
               </h2>
               <div className="overflow-auto rounded-md border">
-                <table className="min-w-[800px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+                <table className="min-w-[950px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
                   <thead>
                     <tr>
                       <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
@@ -273,7 +274,7 @@ export default function Page() {
                         ))
                     ) : (
                       <tr>
-                        {[...Array(7)].map((_, i) => (
+                        {[...Array(6)].map((_, i) => (
                           <td key={i} className="px-4 py-2 whitespace-nowrap">
                             <div className="h-4 bg-gray-300 rounded animate-pulse dark:bg-gray-700"></div>
                           </td>
