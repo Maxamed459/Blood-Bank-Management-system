@@ -4,8 +4,11 @@ import {
   deletingRequest,
   gettingRequest,
   gettingRequestByBloodType,
+  getUserByBloodType,
+  getUserNameById,
 } from "../services/requestService";
 import prisma from "../lib/prisma";
+import { bloodRequestEmail } from "../lib/sendEmailTotheDonors";
 // add request
 export const addRequest = async (req: Request, res: Response) => {
   try {
@@ -47,6 +50,32 @@ export const addRequest = async (req: Request, res: Response) => {
       hospital,
       status
     );
+
+    if (newRequest.status === "APPROVED") {
+      const requester = await getUserNameById(newRequest.requester_id);
+      const requesterName = requester?.fullname ?? "Unknown requester";
+      const donors = await getUserByBloodType(newRequest.blood_type);
+      if (donors.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message:
+            "Sorry we don`t have donor that matches the requested blood type",
+        });
+      }
+      await Promise.all(
+        donors?.map((donor) => {
+          bloodRequestEmail(
+            donor.email,
+            donor.fullname,
+            requesterName,
+            newRequest.blood_type,
+            newRequest.hospital,
+            newRequest.quantity_needed
+          );
+        })
+      );
+    }
+
     res.status(201).json({
       success: true,
       message: "request sent successfully",
@@ -117,6 +146,30 @@ export const updateRequestStatus = async (req: Request, res: Response) => {
         status,
       },
     });
+    if (updatedRequest.status === "APPROVED") {
+      const requester = await getUserNameById(updatedRequest.requester_id);
+      const requesterName = requester?.fullname ?? "Unknown requester";
+      const donors = await getUserByBloodType(updatedRequest.blood_type);
+      if (donors.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message:
+            "Sorry we don`t have donor that matches the requested blood type",
+        });
+      }
+      await Promise.all(
+        donors?.map((donor) => {
+          bloodRequestEmail(
+            donor.email,
+            donor.fullname,
+            requesterName,
+            updatedRequest.blood_type,
+            updatedRequest.hospital,
+            updatedRequest.quantity_needed
+          );
+        })
+      );
+    }
     res.status(200).json({
       success: true,
       message: "request status updated successfully",
