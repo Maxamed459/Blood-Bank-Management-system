@@ -81,3 +81,28 @@ export const deletingRequest = async (id: string) => {
     where: { id },
   });
 };
+
+// supports request but is not related here
+export const getUserByBloodType = async (blood_type: string) => {
+  return await prisma.user.findMany({
+    where: { blood_type: blood_type as $Enums.BloodType },
+    select: {
+      id: true,
+      fullname: true,
+      username: true,
+      email: true,
+      blood_type: true,
+      gender: true,
+      role: true,
+    },
+  });
+};
+// supports request but is not related here
+export const getUserNameById = async (userId: string) => {
+  return await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      fullname: true,
+    },
+  });
+};
