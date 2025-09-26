@@ -5,18 +5,18 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { loadUserFromStorage } from "@/store/slices/authSlice";
 import { getAllBloodRecord } from "@/store/slices/bloodSlice";
-import { Blood, Request } from "@/types/types";
+import { Blood } from "@/types/types";
 import { formatDataTime } from "@/app/lib/formatData";
 import { getAllRequests } from "@/store/slices/requestSlice";
 import RequestStatusUpdate from "./_components/RequestStatusUpdate";
 
 export default function Page() {
   const { user, loading } = useAppSelector((state) => state.auth);
-  // const { blood } = useAppSelector((state) => state.blood);
+  const requests = useAppSelector((state) => state.request.request);
+  console.log(requests);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [blood, setBlood] = useState<Blood[]>([]);
-  const [requests, setRequests] = useState<Request[]>([]);
 
   useEffect(() => {
     dispatch(loadUserFromStorage());
@@ -26,13 +26,12 @@ export default function Page() {
     };
 
     const fetchRequests = async () => {
-      const requests = await dispatch(getAllRequests()).unwrap();
-      setRequests(requests.data);
+      dispatch(getAllRequests()).unwrap();
     };
 
     fetchBlood();
     fetchRequests();
-  }, [dispatch, requests]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -43,7 +42,6 @@ export default function Page() {
   if (loading) {
     return <p>Loading...</p>; // or a spinner
   }
-  console.log(requests);
   return (
     <>
       {(user?.role === "ADMIN" || user?.role === "STAFF") && (
@@ -130,7 +128,7 @@ export default function Page() {
                           ))
                       ) : (
                         <tr>
-                          {[...Array(7)].map((_, i) => (
+                          {[...Array(6)].map((_, i) => (
                             <td key={i} className="px-4 py-2 whitespace-nowrap">
                               <div className="h-4 bg-gray-300 rounded animate-pulse dark:bg-gray-700"></div>
                             </td>
