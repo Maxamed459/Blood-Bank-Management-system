@@ -198,10 +198,19 @@ const requestSlice = createSlice({
         state.loading = false;
 
         // update the list in-place
-        if (state.request) {
-          state.request = state.request.map((req) =>
-            req.id === updated.id ? updated : req
+        // if (state.request) {
+        //   state.request = state.request.map((req) =>
+        //     req.id === updated.id ? updated : req
+        //   );
+        // }
+        if (state.request && Array.isArray(state.request)) {
+          const requestIndex = state.request.findIndex(
+            (req) => req.id === updated.id
           );
+          if (requestIndex !== -1) {
+            // Update the request in the array
+            state.request[requestIndex] = updated;
+          }
         }
       })
 
