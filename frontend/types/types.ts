@@ -61,7 +61,7 @@ export interface BloodState {
   error: string | null;
 }
 export interface RequestState {
-  request: Request[] | null;
+  request: Request[];
   currentRequest: Request | null;
   loading: boolean;
   error: string | null;
