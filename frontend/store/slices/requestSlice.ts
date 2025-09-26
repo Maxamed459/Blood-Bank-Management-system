@@ -2,7 +2,6 @@ import axios, { AxiosError } from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../BaseUrl";
 import { Request, RequestState } from "@/types/types";
-import { useAppSelector } from "..";
 
 // initial state
 const initialState: RequestState = {
@@ -44,7 +43,7 @@ export const addRequest = createAsyncThunk(
 // get all request
 export const getAllRequests = createAsyncThunk(
   "request/getAllRequests",
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { getState }) => {
     try {
       const state = getState() as { auth: { token: string } };
       const token = state.auth.token;
@@ -149,7 +148,7 @@ const requestSlice = createSlice({
         state.error = null;
       })
       .addCase(addRequest.fulfilled, (state, action) => {
-        state.request = action.payload;
+        state.request = action.payload.data;
         state.error = null;
         state.loading = false;
       })
@@ -162,7 +161,7 @@ const requestSlice = createSlice({
         state.error = null;
       })
       .addCase(getAllRequests.fulfilled, (state, action) => {
-        state.request = action.payload;
+        state.request = action.payload.data;
         state.error = null;
         state.loading = false;
       })
@@ -175,7 +174,7 @@ const requestSlice = createSlice({
         state.error = null;
       })
       .addCase(getRequestByType.fulfilled, (state, action) => {
-        state.request = action.payload;
+        state.request = action.payload.data;
         state.error = null;
         state.loading = false;
       })
@@ -187,11 +186,25 @@ const requestSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
+      // .addCase(updateRequest.fulfilled, (state, action) => {
+      //   state.currentRequest = action.payload;
+      //   state.error = null;
+      //   state.loading = false;
+      // })
       .addCase(updateRequest.fulfilled, (state, action) => {
-        state.currentRequest = action.payload;
+        const updated = action.payload; // assuming backend returns updated request object
+        state.currentRequest = updated;
         state.error = null;
         state.loading = false;
+
+        // update the list in-place
+        if (state.request) {
+          state.request = state.request.map((req) =>
+            req.id === updated.id ? updated : req
+          );
+        }
       })
+
       .addCase(updateRequest.rejected, (state, action) => {
         state.error = action.payload as string;
         state.loading = false;
