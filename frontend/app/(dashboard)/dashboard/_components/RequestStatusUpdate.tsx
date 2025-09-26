@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { updateRequest } from "@/store/slices/requestSlice";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 export default function RequestStatusUpdate({
   id,
@@ -16,10 +17,14 @@ export default function RequestStatusUpdate({
   className: string;
   status: string;
 }) {
-  const { error } = useAppSelector((state) => state.request);
+  const { error, loading } = useAppSelector((state) => state.request);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const dispatch = useAppDispatch();
   const updateRequestStatus = async () => {
+    if (isUpdating) return; // Prevent multiple clicks
+
+    setIsUpdating(true);
     const updatedPromise = dispatch(
       updateRequest({
         id,
@@ -28,6 +33,7 @@ export default function RequestStatusUpdate({
         },
       })
     ).unwrap();
+
     try {
       await toast.promise(updatedPromise, {
         loading: "updating request status...",
@@ -36,12 +42,18 @@ export default function RequestStatusUpdate({
       });
     } catch (err) {
       console.error("Request failed:", err);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   return (
-    <Button onClick={updateRequestStatus} className={className}>
-      {title}
+    <Button
+      onClick={updateRequestStatus}
+      className={className}
+      disabled={isUpdating || loading}
+    >
+      {isUpdating ? "Updating..." : title}
     </Button>
   );
 }
