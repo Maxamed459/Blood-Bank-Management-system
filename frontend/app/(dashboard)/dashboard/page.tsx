@@ -13,7 +13,6 @@ import RequestStatusUpdate from "./_components/RequestStatusUpdate";
 export default function Page() {
   const { user, loading } = useAppSelector((state) => state.auth);
   const requests = useAppSelector((state) => state.request.request);
-  console.log(requests);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [blood, setBlood] = useState<Blood[]>([]);
@@ -81,9 +80,9 @@ export default function Page() {
                       {requests && requests.length > 0 ? (
                         requests
                           .filter((request) => request.status === "PENDING") // keep only pending
-                          .map((request, index) => (
+                          .map((request) => (
                             <tr
-                              key={index}
+                              key={request.id}
                               className="hover:bg-gray-100 dark:hover:bg-gray-800"
                             >
                               <td className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-200">
@@ -99,28 +98,38 @@ export default function Page() {
                                 {request.hospital}
                               </td>
                               <td className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-200">
-                                {request.status}
+                                <span
+                                  className={`px-2 py-1 text-xs font-medium rounded-full ${
+                                    request.status === "PENDING"
+                                      ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                      : request.status === "APPROVED"
+                                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                      : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                  }`}
+                                >
+                                  {request.status}
+                                </span>
                               </td>
                               <td className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-200">
                                 {formatDataTime(request.createdAt)}
                               </td>
                               {user?.role === "ADMIN" && (
                                 <>
-                                  <td>
-                                    <RequestStatusUpdate
-                                      id={request.id}
-                                      title="APPROVE"
-                                      className="bg-green-400 hover:bg-green-600 mx-2"
-                                      status="APPROVED"
-                                    />
-                                  </td>
-                                  <td>
-                                    <RequestStatusUpdate
-                                      id={request.id}
-                                      title="REJECT"
-                                      className="bg-red-400 hover:bg-red-600 mx-2"
-                                      status="REJECTED"
-                                    />
+                                  <td className="px-4 py-2 whitespace-nowrap">
+                                    <div className="flex gap-2">
+                                      <RequestStatusUpdate
+                                        id={request.id}
+                                        title="APPROVE"
+                                        className="bg-green-400 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                                        status="APPROVED"
+                                      />
+                                      <RequestStatusUpdate
+                                        id={request.id}
+                                        title="REJECT"
+                                        className="bg-red-400 hover:bg-red-600 text-white px-3 py-1 rounded text-sm"
+                                        status="REJECTED"
+                                      />
+                                    </div>
                                   </td>
                                 </>
                               )}
@@ -128,11 +137,12 @@ export default function Page() {
                           ))
                       ) : (
                         <tr>
-                          {[...Array(6)].map((_, i) => (
-                            <td key={i} className="px-4 py-2 whitespace-nowrap">
-                              <div className="h-4 bg-gray-300 rounded animate-pulse dark:bg-gray-700"></div>
-                            </td>
-                          ))}
+                          <td
+                            colSpan={user?.role === "ADMIN" ? 7 : 6}
+                            className="px-4 py-8 text-center text-gray-500 dark:text-gray-400"
+                          >
+                            No pending requests found
+                          </td>
                         </tr>
                       )}
                     </tbody>
@@ -263,7 +273,17 @@ export default function Page() {
                               {request.hospital}
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-200">
-                              {request.status}
+                              <span
+                                className={`px-2 py-1 text-xs font-medium rounded-full ${
+                                  request.status === "PENDING"
+                                    ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                    : request.status === "APPROVED"
+                                    ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                    : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                }`}
+                              >
+                                {request.status}
+                              </span>
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-200">
                               {formatDataTime(request.createdAt)}
