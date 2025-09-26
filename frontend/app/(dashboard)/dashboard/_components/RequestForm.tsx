@@ -141,6 +141,7 @@ const RequestForm = () => {
                 onChange={handleChange}
                 id="quantity_needed"
                 type="number"
+                step="any"
                 placeholder="Enter quantity needed"
                 required
                 className="border-1 border-slate-600"
