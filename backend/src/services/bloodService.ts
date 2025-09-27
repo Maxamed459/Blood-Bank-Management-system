@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma";
-import { $Enums } from "../generated/prisma";
+import { $Enums } from "@prisma/client";
 
 // creating blood
 export async function addingBlood(
