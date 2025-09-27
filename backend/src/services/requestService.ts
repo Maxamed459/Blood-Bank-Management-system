@@ -1,4 +1,4 @@
-import { $Enums } from "../generated/prisma";
+import { $Enums } from "@prisma/client";
 import prisma from "../lib/prisma";
 
 // add request
