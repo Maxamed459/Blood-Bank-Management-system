@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prisma from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { generateToken } from "../lib/generateToken";
-import { $Enums } from "../generated/prisma";
+import { $Enums } from "@prisma/client";
 import { Readable } from "stream";
 import { welcomeEmail } from "../lib/sendEmail";
 
