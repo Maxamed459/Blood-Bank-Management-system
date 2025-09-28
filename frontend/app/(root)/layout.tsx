@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Bloody",
   description: "Welcome to Bloody",
+  icons: {
+    icon: "/favicon.svg", // path is relative to /public
+  },
 };
 
 export default function RootLayout({
