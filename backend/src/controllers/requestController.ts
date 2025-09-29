@@ -145,8 +145,8 @@ export const getRequestByRequesterId = async (req: Request, res: Response) => {
     const requests = await gettingRequestByRequesterId(requester_id);
 
     if (requests.length === 0) {
-      return res.status(404).json({
-        success: false,
+      return res.status(200).json({
+        success: true,
         message: "You have not made any blood donation requests yet.",
       });
     }
