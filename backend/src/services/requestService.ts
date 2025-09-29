@@ -7,6 +7,7 @@ export const addingRequest = async (
   blood_type: string,
   quantity_needed: number,
   hospital: string,
+  contact: string,
   status: string
 ) => {
   return await prisma.request.create({
@@ -15,6 +16,7 @@ export const addingRequest = async (
       blood_type: blood_type as $Enums.BloodType,
       quantity_needed,
       hospital,
+      contact,
       status: status as $Enums.Status,
     },
   });
@@ -28,6 +30,7 @@ export const gettingRequest = async () => {
       blood_type: true,
       quantity_needed: true,
       hospital: true,
+      contact: true,
       status: true,
       createdAt: true,
       updatedAt: true,
@@ -51,6 +54,24 @@ export const gettingRequestByStatus = async (status: string) => {
       blood_type: true,
       quantity_needed: true,
       hospital: true,
+      contact: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+};
+// get requests by based on requester_id
+export const gettingRequestByRequesterId = async (requester_id: string) => {
+  return await prisma.request.findMany({
+    where: { requester_id },
+    select: {
+      id: true,
+      requester_id: true,
+      blood_type: true,
+      quantity_needed: true,
+      hospital: true,
+      contact: true,
       status: true,
       createdAt: true,
       updatedAt: true,
@@ -63,6 +84,7 @@ export const updatingRequest = async (
   blood_type: string,
   quantity_needed: number,
   hospital: string,
+  contact: string,
   status: string
 ) => {
   return await prisma.request.update({
@@ -71,6 +93,7 @@ export const updatingRequest = async (
       blood_type: blood_type as $Enums.BloodType,
       quantity_needed,
       hospital,
+      contact,
       status: status as $Enums.Status,
     },
   });
