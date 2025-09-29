@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  IconChartBar,
   IconClipboardPlus,
   IconDashboard,
   IconHelp,
@@ -13,6 +12,7 @@ import {
   IconUserStar,
   IconShield,
   IconDropletQuestion,
+  IconList,
 } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -61,7 +61,7 @@ const data = {
     },
     {
       title: "Donors",
-      url: "#",
+      url: "/dashboard/donors",
       icon: IconListDetails,
     },
     {
@@ -70,9 +70,14 @@ const data = {
       icon: IconDropletQuestion,
     },
     {
-      title: "Users",
-      url: "#",
-      icon: IconUsers,
+      title: "My Donations",
+      url: "/dashboard/my-donations",
+      icon: IconList,
+    },
+    {
+      title: "My Requests",
+      url: "/dashboard/my-requests",
+      icon: IconDropletQuestion,
     },
   ],
   navMainStaff: [
@@ -87,19 +92,19 @@ const data = {
       icon: IconUsers,
     },
     {
-      title: "Donors",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
       title: "Request Blood",
       url: "/dashboard/request-blood",
       icon: IconDropletQuestion,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: "My Donations",
+      url: "/dashboard/my-donations",
+      icon: IconList,
+    },
+    {
+      title: "My Requests",
+      url: "/dashboard/my-requests",
+      icon: IconDropletQuestion,
     },
   ],
   navMainUser: [
@@ -109,13 +114,18 @@ const data = {
       icon: IconDashboard,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
       title: "Request Blood",
       url: "/dashboard/request-blood",
+      icon: IconDropletQuestion,
+    },
+    {
+      title: "My Donations",
+      url: "/dashboard/my-donations",
+      icon: IconList,
+    },
+    {
+      title: "My Requests",
+      url: "/dashboard/my-requests",
       icon: IconDropletQuestion,
     },
   ],
