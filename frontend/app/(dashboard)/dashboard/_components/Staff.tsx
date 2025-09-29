@@ -28,7 +28,7 @@ export default function Staff() {
   }, [dispatch]);
 
   return (
-    <div className="w-full">
+    <div className="w-full p-4">
       <div className="overflow-hidden rounded-md border">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
           <thead>
