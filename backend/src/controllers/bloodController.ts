@@ -5,6 +5,7 @@ import {
   gettingAllBlood,
   gettingBloodById,
   gettingBloodByType,
+  gettingBloodByUser,
   updatingBlood,
 } from "../services/bloodService";
 import prisma from "../lib/prisma";
@@ -232,6 +233,32 @@ export const getBloodByType = async (req: Request, res: Response) => {
       success: true,
       message: "Blood records retrieved successfully",
       data: blood,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// getting blood record based on user
+export const getBloodByUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+
+    const bloodRecords = await gettingBloodByUser(userId);
+    if (bloodRecords.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "You have not made any blood donation record yet.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "blood donation records received successfully",
+      data: bloodRecords,
     });
   } catch (error: any) {
     res.status(500).json({
