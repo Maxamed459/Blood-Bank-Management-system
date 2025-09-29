@@ -4,6 +4,7 @@ import {
   deletingRequest,
   gettingRequest,
   gettingRequestByBloodType,
+  gettingRequestByRequesterId,
   getUserByBloodType,
   getUserNameById,
 } from "../services/requestService";
@@ -12,14 +13,14 @@ import { bloodRequestEmail } from "../lib/sendEmailTotheDonors";
 // add request
 export const addRequest = async (req: Request, res: Response) => {
   try {
-    const { blood_type, quantity_needed, hospital } = req.body;
+    const { blood_type, quantity_needed, hospital, contact } = req.body;
     const requester_id = req.user?.id;
     // checking if missing required fields
-    if (!blood_type || !quantity_needed || !hospital) {
+    if (!blood_type || !quantity_needed || !hospital || !contact) {
       return res.status(400).json({
         success: false,
         message:
-          "blood_type & quantity_needed & hospital these fields are required",
+          "blood_type & quantity_needed & hospital & contact these fields are required",
       });
     }
     // checking if the quantity_needed is valid number
@@ -48,6 +49,7 @@ export const addRequest = async (req: Request, res: Response) => {
       blood_type,
       quantity_needed,
       hospital,
+      contact,
       status
     );
 
@@ -70,7 +72,8 @@ export const addRequest = async (req: Request, res: Response) => {
             requesterName,
             newRequest.blood_type,
             newRequest.hospital,
-            newRequest.quantity_needed
+            newRequest.quantity_needed,
+            newRequest.contact
           );
         })
       );
@@ -135,6 +138,30 @@ export const getRequestByBloodType = async (req: Request, res: Response) => {
     });
   }
 };
+// get request by requester_id
+export const getRequestByRequesterId = async (req: Request, res: Response) => {
+  try {
+    const { requester_id } = req.params;
+    const requests = await gettingRequestByRequesterId(requester_id);
+
+    if (requests.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "You have not made any blood donation requests yet.",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Requests found successfully.",
+      data: requests,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 // update request
 export const updateRequestStatus = async (req: Request, res: Response) => {
   try {
@@ -151,10 +178,11 @@ export const updateRequestStatus = async (req: Request, res: Response) => {
       const requesterName = requester?.fullname ?? "Unknown requester";
       const donors = await getUserByBloodType(updatedRequest.blood_type);
       if (donors.length === 0) {
-        return res.status(404).json({
-          success: false,
+        return res.status(200).json({
+          success: true,
           message:
-            "Sorry we don`t have donor that matches the requested blood type",
+            "Request status updated to APPROVED, but no matching donors were found.",
+          data: updatedRequest,
         });
       }
       await Promise.all(
@@ -165,7 +193,8 @@ export const updateRequestStatus = async (req: Request, res: Response) => {
             requesterName,
             updatedRequest.blood_type,
             updatedRequest.hospital,
-            updatedRequest.quantity_needed
+            updatedRequest.quantity_needed,
+            updatedRequest.contact
           );
         })
       );
