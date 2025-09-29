@@ -349,6 +349,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
         username: true,
         blood_type: true,
         role: true,
+        gender: true,
         createdAt: true,
         updatedAt: true,
       },
