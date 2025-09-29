@@ -91,3 +91,18 @@ export async function gettingBloodByType(type: string) {
     },
   });
 }
+
+// getting blood record based on user
+export async function gettingBloodByUser(userId: string) {
+  return await prisma.blood.findMany({
+    where: { donorId: userId },
+    select: {
+      id: true,
+      type: true,
+      quantity: true,
+      donorId: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+}
