@@ -76,6 +76,7 @@ model Request {
   blood_type BloodType
   quantity_needed Float
   hospital String
+  contact String
   status Status @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
