@@ -249,8 +249,8 @@ export const getBloodByUser = async (req: Request, res: Response) => {
 
     const bloodRecords = await gettingBloodByUser(userId);
     if (bloodRecords.length === 0) {
-      return res.status(404).json({
-        success: false,
+      return res.status(200).json({
+        success: true,
         message: "You have not made any blood donation record yet.",
       });
     }
