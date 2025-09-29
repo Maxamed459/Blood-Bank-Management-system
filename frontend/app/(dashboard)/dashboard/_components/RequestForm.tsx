@@ -23,6 +23,7 @@ const RequestForm = () => {
     blood_type: "",
     quantity_needed: "",
     hospital: "",
+    contact: "",
   });
   const { user } = useAppSelector((state) => state.auth);
   const { error, loading } = useAppSelector((state) => state.request);
@@ -51,6 +52,7 @@ const RequestForm = () => {
       ...formData,
       quantity_needed: Number(formData.quantity_needed),
     };
+    console.log(payload);
     const requestPromise = dispatch(addRequest(payload)).unwrap();
 
     try {
@@ -156,6 +158,19 @@ const RequestForm = () => {
                 id="hospital"
                 type="text"
                 placeholder="Enter hospital Name and Location"
+                required
+                className="border-1 border-slate-600"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="hospital" className="text-xs">
+                Contact (phone number)
+              </Label>
+              <Input
+                onChange={handleChange}
+                id="contact"
+                type="text"
+                placeholder="Enter contact phone"
                 required
                 className="border-1 border-slate-600"
               />
