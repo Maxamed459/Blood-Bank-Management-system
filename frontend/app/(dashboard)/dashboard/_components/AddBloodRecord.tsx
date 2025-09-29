@@ -70,9 +70,9 @@ const AddBloodRecord = () => {
     <div className="flex flex-col items-center justify-center py-5 px-4 md:px-10 lg:px-20">
       <div className="w-full">
         <div className="mb-6 ">
-          <h1 className="text-xl font-medium">Send Blood Request</h1>
+          <h1 className="text-xl font-medium">Add Blood Record</h1>
           <p className="text-[11px] text-muted-foreground">
-            Enter the details below to request blood
+            Enter the details below to add blood record
           </p>
           {/* logo goes here */}
         </div>
