@@ -9,7 +9,8 @@ export const bloodRequestEmail = async (
   requesterName: string,
   bloodType: string,
   hospital: string,
-  quantity: number
+  quantity: number,
+  contact: string
 ) => {
   let config = {
     host: "smtp.gmail.com",
@@ -45,6 +46,7 @@ export const bloodRequestEmail = async (
             "Requested Blood Type": bloodType,
             "Quantity Needed (L)": quantity,
             Hospital: hospital,
+            Contact: contact,
           },
         ],
       },
