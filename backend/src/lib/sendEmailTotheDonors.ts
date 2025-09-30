@@ -1,7 +1,23 @@
-// send Email for the new registered user
 import nodemailer from "nodemailer";
-import { EMAIL, PASSWORD } from "../config/config";
+import {
+  CLIENT_ID,
+  CLIENT_SECRET,
+  EMAIL,
+  OAUTH_REFRESH_TOKEN,
+  REDIRECT_URI,
+} from "../config/config";
 import Mailgen from "mailgen";
+import { google } from "googleapis";
+
+const oAuth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI // must match the URI you used to generate refresh token
+);
+
+oAuth2Client.setCredentials({
+  refresh_token: OAUTH_REFRESH_TOKEN,
+});
 
 export const bloodRequestEmail = async (
   donorEmail: string,
@@ -12,67 +28,76 @@ export const bloodRequestEmail = async (
   quantity: number,
   contact: string
 ) => {
-  let config = {
-    host: "smtp.gmail.com",
-    port: 465, // secure SMTP port
-    secure: true, // use TLS
-    auth: {
-      user: EMAIL,
-      pass: PASSWORD,
-    },
-    tls: {
-      // 👇 only needed if you still face self-signed cert issues
-      rejectUnauthorized: false,
-    },
-  };
+  try {
+    const accessToken = await oAuth2Client.getAccessToken();
 
-  let transporter = nodemailer.createTransport(config);
+    if (!accessToken || !accessToken.token) {
+      throw new Error("Failed to retrieve access token from Google OAuth2");
+    }
 
-  let mailGenerator = new Mailgen({
-    theme: "default",
-    product: {
-      name: "Blood Donation Platform",
-      link: "https://talo-plus.vercel.app",
-    },
-  });
-
-  let email = {
-    body: {
-      name: donorName,
-      intro: `A new blood request has been made by **${requesterName}**.`,
-      table: {
-        data: [
-          {
-            "Requested Blood Type": bloodType,
-            "Quantity Needed (L)": quantity,
-            Hospital: hospital,
-            Contact: contact,
-          },
-        ],
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: EMAIL, // must be the same Gmail that owns the client ID/refresh token
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        refreshToken: OAUTH_REFRESH_TOKEN,
+        accessToken: accessToken.token,
       },
-      action: {
-        instructions:
-          "If you are able to donate, please visit the platform and confirm your availability:",
-        button: {
-          color: "#d32f2f",
-          text: "Confirm Donation",
-          link: "https://your-platform-link.com/donor-dashboard",
+      tls: {
+        rejectUnauthorized: true, // <- ignore self-signed certificate
+      },
+    });
+
+    const mailGenerator = new Mailgen({
+      theme: "default",
+      product: {
+        name: "Blood Donation Platform",
+        link: "https://bixi-dhiig.vercel.app",
+      },
+    });
+
+    const email = {
+      body: {
+        name: donorName,
+        intro: `A new blood request has been made by ${requesterName}.`,
+        table: {
+          data: [
+            {
+              "Requested Blood Type": bloodType,
+              "Quantity Needed (L)": quantity,
+              Hospital: hospital,
+              Contact: contact,
+            },
+          ],
         },
+        action: {
+          instructions:
+            "If you are able to donate, please visit the platform and confirm your availability:",
+          button: {
+            color: "#F11A29",
+            text: "Confirm Donation",
+            link: "https://bixi-dhiig.vercel.app/dashboard",
+          },
+        },
+        outro: "Thank you for being a lifesaver ❤️",
       },
-      outro: "Thank you for being a lifesaver ❤️",
-    },
-  };
+    };
 
-  let mail = mailGenerator.generate(email);
+    const mail = mailGenerator.generate(email);
 
-  let message = {
-    from: EMAIL,
-    to: donorEmail,
-    subject: `Urgent Blood Request: ${bloodType} needed`,
-    html: mail,
-  };
+    const message = {
+      from: `Blood Donation Platform <${EMAIL}>`,
+      to: donorEmail,
+      subject: `Urgent Blood Request: ${bloodType} needed`,
+      html: mail,
+    };
 
-  // Verify before sending
-  await transporter.verify();
-  return await transporter.sendMail(message);
+    // Send directly (skip verify to avoid false failures)
+    return await transporter.sendMail(message);
+  } catch (error: any) {
+    console.error("❌ Email sending failed:", error.message || error);
+    throw error;
+  }
 };
