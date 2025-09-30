@@ -9,6 +9,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.use(
+  cors({
+    origin: [
+      "http://localhost:4000", // dev
+      "https://bixi-dhiig.vercel.app/", // production
+    ],
+    credentials: true,
+  })
+);
+
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
     message: "Welcome to Student Records System API",
