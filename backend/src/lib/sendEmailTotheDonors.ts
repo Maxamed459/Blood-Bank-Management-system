@@ -47,9 +47,7 @@ export const bloodRequestEmail = async (
         refreshToken: OAUTH_REFRESH_TOKEN,
         accessToken: accessToken.token,
       },
-      tls: {
-        rejectUnauthorized: true, // <- ignore self-signed certificate
-      },
+      connectionTimeout: 60000,
     });
 
     const mailGenerator = new Mailgen({
