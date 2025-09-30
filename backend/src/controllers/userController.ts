@@ -86,8 +86,6 @@ export const userRegister = async (
 
     const token = generateToken(newUser.id, expiresIn);
 
-    await welcomeEmail(newUser.email, newUser.fullname);
-
     res.status(201).json({
       success: true,
       message: "User registered successfully",
