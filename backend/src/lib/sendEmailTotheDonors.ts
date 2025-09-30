@@ -36,7 +36,9 @@ export const bloodRequestEmail = async (
     }
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         type: "OAuth2",
         user: EMAIL, // must be the same Gmail that owns the client ID/refresh token
