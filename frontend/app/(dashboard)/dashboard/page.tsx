@@ -30,7 +30,7 @@ export default function Page() {
 
     fetchBlood();
     fetchRequests();
-  }, [dispatch, requests]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!loading && !user) {
