@@ -35,17 +35,30 @@ export const bloodRequestEmail = async (
       throw new Error("Failed to retrieve access token from Google OAuth2");
     }
 
+    // const transporter = nodemailer.createTransport({
+    //   auth: {
+    //     type: "OAuth2",
+    //     user: EMAIL, // must be the same Gmail that owns the client ID/refresh token
+    //     clientId: CLIENT_ID,
+    //     clientSecret: CLIENT_SECRET,
+    //     refreshToken: OAUTH_REFRESH_TOKEN,
+    //     accessToken: accessToken.token,
+    //   },
+    //   connectionTimeout: 60000,
+    // });
+
     const transporter = nodemailer.createTransport({
+      service: "gmail",
       auth: {
         type: "OAuth2",
-        user: EMAIL, // must be the same Gmail that owns the client ID/refresh token
+        user: EMAIL,
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: OAUTH_REFRESH_TOKEN,
         accessToken: accessToken.token,
       },
-      connectionTimeout: 60000,
     });
+
 
     const mailGenerator = new Mailgen({
       theme: "default",
