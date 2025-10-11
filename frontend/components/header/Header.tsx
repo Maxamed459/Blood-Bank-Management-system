@@ -12,8 +12,8 @@ export default function Header() {
       </div>
       <nav className="flex items-center gap-4">
         <Link href="/">about</Link>
-        <Link href="/">features</Link>
-        <Link href="/">services</Link>
+        <Link href="/privacy-policy">privacy-policy</Link>
+        <Link href="/terms">terms</Link>
         <Link href="/">contact</Link>
       </nav>
       <div className="flex items-center gap-4">

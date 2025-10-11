@@ -66,15 +66,15 @@ export default function RootLayout({
               </Link>
               <Link
                 className="text-sm text-muted-foreground hover:underline"
-                href="#features"
+                href="/privacy-policy"
               >
-                Features
+                Privacy Policy
               </Link>
               <Link
                 className="text-sm text-muted-foreground hover:underline"
-                href="#roles"
+                href="/terms"
               >
-                Roles
+                Terms & Conditions
               </Link>
               <Link
                 className="text-sm text-muted-foreground hover:underline"
