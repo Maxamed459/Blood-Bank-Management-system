@@ -9,7 +9,7 @@ import {
   getUserNameById,
 } from "../services/requestService";
 import prisma from "../lib/prisma";
-import { bloodRequestEmail } from "../lib/sendEmailTotheDonors";
+import { bloodRequestEmail } from "../lib/sendEmailGmailAPI";
 // add request
 export const addRequest = async (req: Request, res: Response) => {
   try {
@@ -66,6 +66,7 @@ export const addRequest = async (req: Request, res: Response) => {
       }
       await Promise.all(
         donors?.map((donor) => {
+
           bloodRequestEmail(
             donor.email,
             donor.fullname,
