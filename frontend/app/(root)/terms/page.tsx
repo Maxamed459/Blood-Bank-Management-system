@@ -17,8 +17,8 @@ export default function TermsOfServicePage() {
       <section>
         <h2>Acceptance of Terms</h2>
         <p>
-          By using the Bloody platform (the "Service"), you agree to these Terms of
-          Service. If you do not agree, do not use the Service.
+          By using the Bloody platform (the &quot;Service&quot;), you agree to these
+          Terms of Service. If you do not agree, do not use the Service.
         </p>
       </section>
 
@@ -40,7 +40,7 @@ export default function TermsOfServicePage() {
       </section>
 
       <section>
-        <h2>Requests & Notifications</h2>
+        <h2>Requests &amp; Notifications</h2>
         <p>
           Users may request blood. Requests from regular users are subject to
           administrative approval before donors are notified. Admins and staff may
@@ -51,7 +51,7 @@ export default function TermsOfServicePage() {
       <section>
         <h2>Limitation of Liability</h2>
         <p>
-          The Service is provided "as is". We do not guarantee the availability,
+          The Service is provided &quot;as is&quot;. We do not guarantee the availability,
           suitability, or safety of donors or recipients. We are not responsible for
           medical outcomes or third-party actions resulting from use of the Service.
         </p>
@@ -94,7 +94,7 @@ export default function TermsOfServicePage() {
         <h2>Contact</h2>
         <p>
           Questions about these Terms should be directed to{" "}
-          <a href="maxamedmahdi459@gmail.com">Maxamed Mahdi</a>.
+          <a href="mailto:maxamedmahdi459@gmail.com">Maxamed Mahdi</a>.
         </p>
       </section>
     </main>
