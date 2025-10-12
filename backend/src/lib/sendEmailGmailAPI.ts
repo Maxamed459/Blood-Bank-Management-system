@@ -19,7 +19,7 @@ oAuth2Client.setCredentials({ refresh_token: OAUTH_REFRESH_TOKEN });
 // Gmail API instance
 const gmail = google.gmail({ version: "v1", auth: oAuth2Client });
 
-// Helper function to encode email
+// Encodes the email message to base64url format required by Gmail API
 const encodeMessage = (message: string) => {
   return Buffer.from(message)
     .toString("base64")
