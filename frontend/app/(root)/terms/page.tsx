@@ -17,8 +17,8 @@ export default function TermsOfServicePage() {
       <section>
         <h2>Acceptance of Terms</h2>
         <p>
-          By using the Bloody platform (the &quot;Service&quot;), you agree to these
-          Terms of Service. If you do not agree, do not use the Service.
+          By using the Bloody platform (the &quot;Service&quot;), you agree to
+          these Terms of Service. If you do not agree, do not use the Service.
         </p>
       </section>
 
@@ -34,8 +34,9 @@ export default function TermsOfServicePage() {
       <section>
         <h2>Use of the Service</h2>
         <p>
-          The Service facilitates matching donors and recipients and tracking blood
-          inventory. You agree not to use the Service for illegal or harmful purposes.
+          The Service facilitates matching donors and recipients and tracking
+          blood inventory. You agree not to use the Service for illegal or
+          harmful purposes.
         </p>
       </section>
 
@@ -43,34 +44,35 @@ export default function TermsOfServicePage() {
         <h2>Requests &amp; Notifications</h2>
         <p>
           Users may request blood. Requests from regular users are subject to
-          administrative approval before donors are notified. Admins and staff may
-          create requests that are approved immediately.
+          administrative approval before donors are notified. Admins and staff
+          may create requests that are approved immediately.
         </p>
       </section>
 
       <section>
         <h2>Limitation of Liability</h2>
         <p>
-          The Service is provided &quot;as is&quot;. We do not guarantee the availability,
-          suitability, or safety of donors or recipients. We are not responsible for
-          medical outcomes or third-party actions resulting from use of the Service.
+          The Service is provided &quot;as is&quot;. We do not guarantee the
+          availability, suitability, or safety of donors or recipients. We are
+          not responsible for medical outcomes or third-party actions resulting
+          from use of the Service.
         </p>
       </section>
 
       <section>
         <h2>Indemnification</h2>
         <p>
-          You agree to indemnify and hold harmless Bloody and its affiliates from
-          claims arising out of your use of the Service or your violation of these
-          Terms.
+          You agree to indemnify and hold harmless Bloody and its affiliates
+          from claims arising out of your use of the Service or your violation
+          of these Terms.
         </p>
       </section>
 
       <section>
         <h2>Termination</h2>
         <p>
-          We may suspend or terminate accounts for violations of these Terms or for
-          other lawful reasons.
+          We may suspend or terminate accounts for violations of these Terms or
+          for other lawful reasons.
         </p>
       </section>
 
