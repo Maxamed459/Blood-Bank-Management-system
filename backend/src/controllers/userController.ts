@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { generateToken } from "../lib/generateToken";
 import { $Enums } from "@prisma/client";
 import { Readable } from "stream";
-import { welcomeEmail } from "../lib/sendEmail";
+import { sendWelcomeEmail } from "../lib/sendWelcomeEmail";
 
 interface RegisterRequestBody {
   fullname: string;
@@ -85,6 +85,9 @@ export const userRegister = async (
     const expiresIn = 7 * 24 * 60 * 60;
 
     const token = generateToken(newUser.id, expiresIn);
+
+    // send welcome email
+    await sendWelcomeEmail(newUser.email, newUser.fullname);
 
     res.status(201).json({
       success: true,
