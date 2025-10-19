@@ -23,8 +23,8 @@ export default function TermsOfServicePage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Acceptance of Terms</h2>
             <p className="leading-relaxed">
-              By using the Bloody platform (the "Service"), you agree to these
-              Terms of Service. If you do not agree, do not use the Service.
+              By using the Bloody platform the Service, you agree to these Terms
+              of Service. If you do not agree, do not use the Service.
             </p>
           </section>
 
@@ -105,7 +105,7 @@ export default function TermsOfServicePage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Contact</h2>
             <p className="leading-relaxed">
-              Questions about these Terms should be directed to{" "}
+              Questions about these Terms should be directed to
               <a
                 href="mailto:maxamedmahdi459@gmail.com"
                 className="text-red-600 dark:text-red-400 underline hover:opacity-80"
