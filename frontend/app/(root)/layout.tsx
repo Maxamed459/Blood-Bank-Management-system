@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import favicon from "../facicon.svg";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import Link from "next/link";
 import Image from "next/image";
@@ -59,19 +60,13 @@ export default function RootLayout({
             </div>
             <nav className="flex items-center gap-3">
               <Link
-                className="text-sm text-muted-foreground hover:underline"
-                href="/dashboard"
-              >
-                Dashboard
-              </Link>
-              <Link
-                className="text-sm text-muted-foreground hover:underline"
+                className="text-sm text-muted-foreground hover:underline hidden md:inline-block"
                 href="/privacy-policy"
               >
                 Privacy Policy
               </Link>
               <Link
-                className="text-sm text-muted-foreground hover:underline"
+                className="text-sm text-muted-foreground hover:underline hidden md:inline-block"
                 href="/terms"
               >
                 Terms & Conditions
