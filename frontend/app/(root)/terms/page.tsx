@@ -62,7 +62,7 @@ export default function TermsOfServicePage() {
               Limitation of Liability
             </h2>
             <p className="leading-relaxed">
-              The Service is provided "as is". We do not guarantee the
+              The Service is provided as is. We do not guarantee the
               availability, suitability, or safety of donors or recipients. We
               are not responsible for medical outcomes or third-party actions
               resulting from use of the Service.
