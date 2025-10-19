@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Bloody</title>
-        <meta name="description" content="Welcome to Bloody" />
+        <meta name="description" content="Welcome to Bloody | home page" />
         <link rel="icon" href="/favicon.svg" />
       </head>
       <body
