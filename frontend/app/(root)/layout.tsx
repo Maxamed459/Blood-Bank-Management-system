@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import favicon from "../facicon.svg";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import Link from "next/link";
 import Image from "next/image";
