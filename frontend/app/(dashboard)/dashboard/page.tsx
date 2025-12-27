@@ -8,10 +8,11 @@ import { getAllBloodRecord } from "@/store/slices/bloodSlice";
 import { Blood } from "@/types/types";
 import { formatDataTime } from "@/app/lib/formatData";
 import { getAllRequests } from "@/store/slices/requestSlice";
-import RequestStatusUpdate from "./_components/RequestStatusUpdate";
+import { BloodTable } from "./_components/BloodTable";
+import { ApproveRequest } from "./_components/ApproveRequest";
 
 export default function Page() {
-  const { user, loading } = useAppSelector((state) => state.auth);
+  const { user, loading, token } = useAppSelector((state) => state.auth);
   const requests = useAppSelector((state) => state.request.request);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -48,12 +49,12 @@ export default function Page() {
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
               <SectionCards />
-              <div className="w-full px-4">
+              {/* <div className="w-full px-4">
                 <h2 className="px-4 py-2 text-xl font-bold">
                   Here are the requests that needs to approve
                 </h2>
                 <div className="overflow-auto rounded-md border">
-                  <table className="min-w-[950px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
                     <thead>
                       <tr>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
@@ -148,13 +149,15 @@ export default function Page() {
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div className="w-full px-4">
+              </div> */}
+              <ApproveRequest />
+              <BloodTable />
+              {/* <div className="w-full px-4">
                 <h2 className="px-4 py-2 text-xl font-bold">
                   Blood Donation Record
                 </h2>
                 <div className="overflow-auto rounded-md border">
-                  <table className="min-w-[950px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
                     <thead>
                       <tr>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
@@ -175,8 +178,8 @@ export default function Page() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                      {blood ? (
-                        blood?.map((blood) => (
+                      {data ? (
+                        data?.map((blood: Blood) => (
                           <tr
                             key={blood.id}
                             className="hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -215,7 +218,7 @@ export default function Page() {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -227,7 +230,7 @@ export default function Page() {
               Blood Requests please donate if you have those blood type
             </h2>
             <div className="overflow-auto rounded-md border">
-              <table className="min-w-[950px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
                 <thead>
                   <tr>
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
