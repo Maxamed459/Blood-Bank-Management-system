@@ -20,21 +20,6 @@ export default function Page() {
   const [blood, setBlood] = useState<Blood[]>([]);
 
   useEffect(() => {
-    dispatch(loadUserFromStorage());
-    const fetchBlood = async () => {
-      const bloods = await dispatch(getAllBloodRecord()).unwrap();
-      setBlood(bloods.data);
-    };
-
-    const fetchRequests = async () => {
-      dispatch(getAllRequests()).unwrap();
-    };
-
-    fetchBlood();
-    fetchRequests();
-  }, [dispatch]);
-
-  useEffect(() => {
     if (!loading && !user) {
       router.push("/auth/login");
     }

@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store";
 import toast from "react-hot-toast";
 import { addBloodRecord } from "@/store/slices/bloodSlice";
+import { any } from "zod";
 
 const AddBloodRecord = () => {
   const [formData, setFormData] = useState({
@@ -79,7 +80,7 @@ const AddBloodRecord = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
             {error && (
-              <div className="bg-red-200 text-red-800 border-1 border-red-800 p-4">
+              <div className="bg-red-200 text-red-800 border border-red-800 p-4">
                 <p className="text-sm">{error}</p>
               </div>
             )}
@@ -90,7 +91,7 @@ const AddBloodRecord = () => {
               <Select
                 onValueChange={(value) => handleSelectChange("type", value)}
               >
-                <SelectTrigger className="w-full border-1 border-slate-600">
+                <SelectTrigger className="w-full border border-slate-600">
                   <SelectValue placeholder="Select Blood type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -115,9 +116,10 @@ const AddBloodRecord = () => {
                 onChange={handleChange}
                 id="quantity"
                 type="number"
+                step="any"
                 placeholder="Enter quantity"
                 required
-                className="border-1 border-slate-600"
+                className="border border-slate-600"
               />
             </div>
             <div className="grid gap-2">
@@ -130,7 +132,7 @@ const AddBloodRecord = () => {
                 type="text"
                 placeholder="Enter Donor Id"
                 required
-                className="border-1 border-slate-600"
+                className="border border-slate-600"
               />
             </div>
 

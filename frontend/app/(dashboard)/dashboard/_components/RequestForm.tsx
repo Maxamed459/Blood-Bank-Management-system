@@ -105,7 +105,7 @@ const RequestForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
             {error && (
-              <div className="bg-red-200 text-red-800 border-1 border-red-800 p-4">
+              <div className="bg-red-200 text-red-800 border border-red-800 p-4">
                 <p className="text-sm">{error}</p>
               </div>
             )}
@@ -118,7 +118,7 @@ const RequestForm = () => {
                   handleSelectChange("blood_type", value)
                 }
               >
-                <SelectTrigger className="w-full border-1 border-slate-600">
+                <SelectTrigger className="w-full border border-slate-600">
                   <SelectValue placeholder="Select Blood type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -146,7 +146,7 @@ const RequestForm = () => {
                 step="any"
                 placeholder="Enter quantity needed"
                 required
-                className="border-1 border-slate-600"
+                className="border border-slate-600"
               />
             </div>
             <div className="grid gap-2">
@@ -159,7 +159,7 @@ const RequestForm = () => {
                 type="text"
                 placeholder="Enter hospital Name and Location"
                 required
-                className="border-1 border-slate-600"
+                className="border border-slate-600"
               />
             </div>
             <div className="grid gap-2">
@@ -172,7 +172,7 @@ const RequestForm = () => {
                 type="text"
                 placeholder="Enter contact phone"
                 required
-                className="border-1 border-slate-600"
+                className="border border-slate-600"
               />
             </div>
 
