@@ -42,7 +42,7 @@ export default function MyDonationsPage() {
   return (
     <div className="@container/main p-4">
       <div className="overflow-auto rounded-md border ">
-        <table className="min-w-[950px] divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
           <thead>
             <tr>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
