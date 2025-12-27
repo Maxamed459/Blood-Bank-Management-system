@@ -29,7 +29,7 @@ export const BloodTable = () => {
 //   console.log("Blood Data:", data);
   return (
     <div className="w-full px-4">
-      <h2 className="px-4 py-2 text-xl font-bold">Blood Donation Record</h2>
+      <h2 className="mb-4 text-xl font-bold">Blood Donation Record</h2>
       <div className="overflow-auto rounded-md border">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
           <thead>
