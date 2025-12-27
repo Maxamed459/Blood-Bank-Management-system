@@ -31,7 +31,7 @@ export const ApproveRequest = () => {
 
   return (
     <div className="w-full px-4">
-      <h2 className="px-4 py-2 text-xl font-bold">
+      <h2 className="mb-4 text-xl font-bold">
         Here are the requests that needs to approve
       </h2>
       <div className="overflow-auto rounded-md border">
