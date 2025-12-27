@@ -8,8 +8,7 @@ import { ToasterProvider } from "@/components/providers/toester-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { Suspense } from "react";
-import { Metadata } from "next";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +19,8 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -43,18 +44,20 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <SidebarProvider
-              style={
-                {
-                  "--sidebar-width": "calc(var(--spacing) * 72)",
-                  "--header-height": "calc(var(--spacing) * 12)",
+              <SidebarProvider
+                style={
+                  {
+                    "--sidebar-width": "calc(var(--spacing) * 72)",
+                    "--header-height": "calc(var(--spacing) * 12)",
                 } as React.CSSProperties
               }
             >
               <AppSidebar variant="inset" />
               <SidebarInset>
                 <SiteHeader />
-                <Suspense fallback={<b>Loading...</b>}>{children}</Suspense>
+                <QueryClientProvider client={queryClient}>
+                {children}
+                </QueryClientProvider>
               </SidebarInset>
             </SidebarProvider>
             <ToasterProvider />
