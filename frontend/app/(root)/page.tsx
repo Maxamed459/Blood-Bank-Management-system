@@ -1,6 +1,16 @@
+"use client"
+import { useAppSelector } from "@/store";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
+  const { user } = useAppSelector((state) => state.auth);
+  const navigator = useRouter()
+
+  useEffect(() => {
+    if (user) navigator.push("/dashboard");
+  }, [user, navigator]);
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
