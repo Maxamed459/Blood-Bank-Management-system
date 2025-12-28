@@ -41,180 +41,20 @@ const BloodArray = [
   },
 ];
 
+
 export function SectionCards() {
   return (
-    // <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-3 @5xl/main:grid-cols-4">
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Total Blood Donors</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         1,250
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">Total Blood Donors</div>
-    //     </CardFooter>
-    //   </Card>
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Total Blood Litters</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         1,250.00 L
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">
-    //         Total Blood litters available now
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Successful Donations</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         898
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">
-    //         Total successful donations recorded.
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Successful Donations</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         898
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">
-    //         Total successful donations recorded.
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Successful Donations</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         898
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">
-    //         Total successful donations recorded.
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Successful Donations</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         898
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">
-    //         Total successful donations recorded.
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Successful Donations</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         898
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">
-    //         Total successful donations recorded.
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Successful Donations</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         898
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">
-    //         Total successful donations recorded.
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-    //   <Card className="@container/card">
-    //     <CardHeader>
-    //       <CardDescription>Successful Donations</CardDescription>
-    //       <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-    //         898
-    //       </CardTitle>
-    //     </CardHeader>
-    //     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-    //       <div className="text-muted-foreground">
-    //         Total successful donations recorded.
-    //       </div>
-    //     </CardFooter>
-    //   </Card>
-    // </div>
-    <div className="space-y-4 px-4 lg:px-6">
-      {/* First row: 3 columns */}
-      <div className="grid grid-cols-1 gap-4 @xl/main:grid-cols-3">
-        <Card className="@container/card">
-          <CardHeader>
-            <CardDescription>Total Blood Donors</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              1,250
-            </CardTitle>
-          </CardHeader>
-          <CardFooter>
-            <div className="text-muted-foreground">Total Blood Donors</div>
-          </CardFooter>
-        </Card>
-
-        <Card className="@container/card">
-          <CardHeader>
-            <CardDescription>Total Blood Liters</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              1,250.00 L
-            </CardTitle>
-          </CardHeader>
-          <CardFooter>
-            <div className="text-muted-foreground">
-              Total Blood liters available now
-            </div>
-          </CardFooter>
-        </Card>
-
-        <Card className="@container/card">
-          <CardHeader>
-            <CardDescription>Successful Donations</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              898
-            </CardTitle>
-          </CardHeader>
-          <CardFooter>
-            <div className="text-muted-foreground">
-              Total successful donations recorded.
-            </div>
-          </CardFooter>
-        </Card>
-      </div>
-      <h2></h2>
-      {/* Second row: 6 columns */}
-      <div className="grid grid-cols-2 gap-2 @xl/main:grid-cols-4">
-        {BloodArray.map((blood, i) => (
-          <Card key={i} className="@container/card">
+    <div className="max-w-[95%] min-w-full mx-auto p-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {BloodArray.map((blood) => (
+          <Card key={blood.type} className="flex flex-row items-center justify-between p-4 border border-gray-200">
             <CardHeader>
-              <CardDescription>{blood.type}</CardDescription>
-              <CardTitle className="text-2xl font-semibold">
-                {blood.amount} L
-              </CardTitle>
+              <CardTitle>{blood.type}</CardTitle>
+              <CardDescription>{blood.amount} units</CardDescription>
             </CardHeader>
+            <div className="p-2 bg-red-100 dark:bg-red-0\50 rounded-full">
+              <img src= {blood.type.split("_")[1] === "POSITIVE" ? '/blood_positive.svg' : '/blood_negative.svg'} alt="blood icon" className="w-8" />
+            </div>
           </Card>
         ))}
       </div>
