@@ -121,13 +121,20 @@ export const ApproveRequest = () => {
                   </tr>
                 ))
             ) : (
+              // <tr>
+              //   <td
+              //     colSpan={user?.role === "ADMIN" ? 7 : 6}
+              //     className="px-4 py-8 text-center text-gray-500 dark:text-gray-400"
+              //   >
+              //     No pending requests found
+              //   </td>
+              // </tr>
               <tr>
-                <td
-                  colSpan={user?.role === "ADMIN" ? 7 : 6}
-                  className="px-4 py-8 text-center text-gray-500 dark:text-gray-400"
-                >
-                  No pending requests found
-                </td>
+                {[...Array(6)].map((_, i) => (
+                  <td key={i} className="px-4 py-2 whitespace-nowrap">
+                    <div className="h-4 bg-gray-300 rounded animate-pulse dark:bg-gray-700"></div>
+                  </td>
+                ))}
               </tr>
             )}
           </tbody>
