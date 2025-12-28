@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store";
 import toast from "react-hot-toast";
 import { addBloodRecord } from "@/store/slices/bloodSlice";
-import { any } from "zod";
 
 const AddBloodRecord = () => {
   const [formData, setFormData] = useState({
