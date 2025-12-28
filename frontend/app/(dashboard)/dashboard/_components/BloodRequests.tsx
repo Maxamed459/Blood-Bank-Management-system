@@ -26,6 +26,7 @@ export const BloodRequests = () => {
   const { data, isPending, error } = useQuery({
     queryKey: ["blood-requests"],
     queryFn: fetchRequests,
+    staleTime: 60000, // 1 minute
   });
 
   return (
