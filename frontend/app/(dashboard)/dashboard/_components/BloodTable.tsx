@@ -27,6 +27,7 @@ export const BloodTable = () => {
     const { data, isLoading, error } = useQuery({
     queryKey: ['bloodRecords'],
     queryFn: fetchBloodData,
+    staleTime: 60000, // 1 minute
   });
 //   console.log("Blood Data:", data);
   return (
