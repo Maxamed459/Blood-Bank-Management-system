@@ -27,6 +27,7 @@ export const ApproveRequest = () => {
   const { data, isPending, error } = useQuery({
     queryKey: ["requests"],
     queryFn: fetchRequests,
+    staleTime: 60000, // 1 minute
   });
 
   return (
