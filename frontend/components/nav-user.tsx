@@ -39,8 +39,8 @@ export function NavUser({ user }: { user: User | null }) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user?.gender === "MALE" ? '/man_avater.svg' : '/woman_avater.svg'} alt="avater" />
+              <Avatar className="h-8 w-8 rounded-lg grayscale bg-gray-300">
+                <AvatarImage src={user?.gender === "MALE" ? '/man_avater.svg' : '/woman_avater.svg'} alt="gender avater" />
                 <AvatarFallback className="rounded-lg">
                   {user?.username?.charAt(0)}
                 </AvatarFallback>
