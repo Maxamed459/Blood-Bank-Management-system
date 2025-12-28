@@ -41,6 +41,7 @@ const AddBloodRecord = () => {
   const {data, isPending} = useQuery({
     queryKey: ['bloodRecord', id],
     queryFn: fetchBloodRecordData,
+    staleTime: 60000, // 1 minute
   })
 
   const [formData, setFormData] = useState({
@@ -113,7 +114,7 @@ const AddBloodRecord = () => {
                 Blood type
               </Label>
               <Select
-              value={data.type}
+              value={data?.type}
                 onValueChange={(value) => handleSelectChange("type", value)}
               >
                 <SelectTrigger className="w-full border border-slate-600">
@@ -138,7 +139,7 @@ const AddBloodRecord = () => {
                 Quantity
               </Label>
               <Input
-              value={data.quantity}
+              value={data?.quantity}
                 onChange={handleChange}
                 id="quantity"
                 type="number"
@@ -153,7 +154,7 @@ const AddBloodRecord = () => {
                 Donor Id
               </Label>
               <Input
-              value={data.donorId}
+              value={data?.donorId}
                 onChange={handleChange}
                 id="donorId"
                 type="text"
