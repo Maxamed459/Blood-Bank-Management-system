@@ -4,8 +4,10 @@ import { BASE_URL } from "@/store/BaseUrl";
 import { Blood } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 export const BloodTable = () => {
+  const router = useRouter();
     const token = useAppSelector((state) => state.auth.token);
     const fetchBloodData = async () => {
         try {
@@ -77,7 +79,7 @@ export const BloodTable = () => {
                     {formatDataTime(blood.createdAt)}
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-200">
-                    <button className="px-6 py-2 bg-green-200 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-md font-semibold">Edit</button>
+                    <button onClick={() => router.push(`/dashboard/blood-record/${blood.id}`)} className="px-6 py-2 bg-green-400 text-green-800 dark:bg-green-400 dark:text-white rounded-md font-semibold">Edit</button>
                   </td>
                 </tr>
               ))
