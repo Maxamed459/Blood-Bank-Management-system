@@ -14,9 +14,9 @@ export function SiteHeader() {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-xl font-medium">Hi <span className="font-bold text-red-600">{user?.role.toLowerCase()}, {user?.fullname.toLowerCase()}</span> Welcome to the Blood Bank Management System</h1>
+        <h1 className="text-[9px] md:text-[16px] font-medium">Hi <span className="font-bold text-red-600">{user?.role.toLowerCase()}, {user?.fullname.toLowerCase()}</span> Welcome to the Blood Bank Management System</h1>
         <div className="ml-auto flex items-center gap-2">
-          <div className="W-12 H-12 rounded-full bg-gray-100 dark:bg-gray-600 border p-1">
+          <div className="hidden md:block W-12 H-12 rounded-full bg-gray-100 dark:bg-gray-600 border p-1">
             {user?.gender === "MALE" ? (
               <>
               <img src="/man_avater.svg" className="w-6" alt="man avater" />
@@ -28,7 +28,7 @@ export function SiteHeader() {
             )}
             
           </div>
-          <div>
+          <div className="hidden md:block">
               <p className="text-xs">{user?.fullname}</p>
               <p className="text-xs">{user?.email}</p>
             </div>
