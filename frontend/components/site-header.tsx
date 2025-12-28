@@ -16,14 +16,14 @@ export function SiteHeader() {
         />
         <h1 className="text-[9px] md:text-[16px] font-medium">Hi <span className="font-bold text-red-600">{user?.role.toLowerCase()}, {user?.fullname.toLowerCase()}</span> Welcome to the Blood Bank Management System</h1>
         <div className="ml-auto flex items-center gap-2">
-          <div className="hidden md:block W-12 H-12 rounded-full bg-gray-100 dark:bg-gray-600 border p-1">
+          <div className="hidden md:block h-8 w-8 rounded-lg bg-gray-100 dark:bg-gray-600 border p-1">
             {user?.gender === "MALE" ? (
               <>
-              <img src="/man_avater.svg" className="w-6" alt="man avater" />
+              <img src="/man_avater.svg" className="aspect-square w-full" alt="man avater" />
               </>
             ) : (
               <>
-              <img src="/woman_avater.svg" className="w-6" alt="woman avater" />
+              <img src="/woman_avater.svg" className="aspect-square w-full" alt="woman avater" />
               </>
             )}
             
