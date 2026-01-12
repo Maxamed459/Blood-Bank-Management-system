@@ -21,7 +21,7 @@ app.use(
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
-    message: "Welcome to Student Records System API",
+    message: "Welcome to Blood Bank management System API",
     version: "2.0.0",
     endpoints: {
       auth: "/api/auth",
