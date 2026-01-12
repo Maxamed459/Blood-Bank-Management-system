@@ -2,7 +2,7 @@ import { useAppSelector } from "@/store";
 import { BASE_URL } from "@/store/BaseUrl";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import {Request} from "@/types/types";
+import { Request } from "@/types/types";
 import { formatDataTime } from "@/app/lib/formatData";
 import RequestStatusUpdate from "./RequestStatusUpdate";
 
@@ -16,7 +16,7 @@ export const ApproveRequest = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-    //   console.log("Requests data:", res.data);
+      //   console.log("Requests data:", res.data);
       return res.data.data;
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
