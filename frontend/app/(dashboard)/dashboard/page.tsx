@@ -11,6 +11,8 @@ import { getAllRequests } from "@/store/slices/requestSlice";
 import { BloodTable } from "./_components/BloodTable";
 import { ApproveRequest } from "./_components/ApproveRequest";
 import { BloodRequests } from "./_components/BloodRequests";
+import { BarChartBlood } from "./_components/BarChartBlood";
+import { PieChartBlood } from "./_components/PieChartBlood";
 
 export default function Page() {
   const { user, loading, token } = useAppSelector((state) => state.auth);
@@ -35,13 +37,17 @@ export default function Page() {
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
               <SectionCards />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 max-w-[95%] min-w-full mx-auto p-4 ">
+                <BarChartBlood />
+                <PieChartBlood />
+              </div>
               <ApproveRequest />
               <BloodTable />
             </div>
           </div>
         </div>
       )}
-          <BloodRequests />
+      <BloodRequests />
     </>
   );
 }
