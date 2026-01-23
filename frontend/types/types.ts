@@ -41,6 +41,7 @@ export interface Request {
   blood_type: BloodType;
   quantity_needed: number;
   hospital: string;
+  contact: string;
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -91,6 +92,6 @@ export interface addBloodRecordResponse {
       donorId: string;
       createdAt: string;
       updatedAt: string;
-    }
+    },
   ];
 }
