@@ -41,19 +41,29 @@ const BloodArray = [
   },
 ];
 
-
 export function SectionCards() {
   return (
     <div className="max-w-[95%] min-w-full mx-auto p-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {BloodArray.map((blood) => (
-          <Card key={blood.type} className="flex flex-row items-center justify-between p-4 border border-gray-200">
+          <Card
+            key={blood.type}
+            className="flex flex-row items-center justify-between p-4 border border-gray-200"
+          >
             <CardHeader>
               <CardTitle>{blood.type}</CardTitle>
               <CardDescription>{blood.amount} units</CardDescription>
             </CardHeader>
             <div className="p-2 bg-red-100 dark:bg-red-0\50 rounded-full">
-              <img src= {blood.type.split("_")[1] === "POSITIVE" ? '/blood_positive.svg' : '/blood_negative.svg'} alt="blood icon" className="w-8" />
+              <img
+                src={
+                  blood.type.split("_")[1] === "POSITIVE"
+                    ? "/blood_positive.svg"
+                    : "/blood_negative.svg"
+                }
+                alt="blood icon"
+                className="w-8"
+              />
             </div>
           </Card>
         ))}
