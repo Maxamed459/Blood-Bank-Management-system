@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { ModeToggle } from "../ui/mode-toggle";
 
 export default function Header() {
   return (
@@ -23,7 +22,6 @@ export default function Header() {
         <Button>
           <Link href="/auth/login">Login</Link>
         </Button>
-        <ModeToggle />
       </div>
     </div>
   );
