@@ -1,7 +1,6 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../../globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Provider } from "react-redux";
 import store from "@/store";
 import { ToasterProvider } from "@/components/providers/toester-provider";
@@ -9,6 +8,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,30 +38,23 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+          <SidebarProvider
+            style={
+              {
+                "--sidebar-width": "calc(var(--spacing) * 72)",
+                "--header-height": "calc(var(--spacing) * 12)",
+              } as React.CSSProperties
+            }
           >
-              <SidebarProvider
-                style={
-                  {
-                    "--sidebar-width": "calc(var(--spacing) * 72)",
-                    "--header-height": "calc(var(--spacing) * 12)",
-                } as React.CSSProperties
-              }
-            >
-              <AppSidebar variant="inset" />
-              <SidebarInset>
-                <SiteHeader />
-                <QueryClientProvider client={queryClient}>
+            <AppSidebar variant="inset" />
+            <SidebarInset>
+              <SiteHeader />
+              <QueryClientProvider client={queryClient}>
                 {children}
-                </QueryClientProvider>
-              </SidebarInset>
-            </SidebarProvider>
-            <ToasterProvider />
-          </ThemeProvider>
+              </QueryClientProvider>
+            </SidebarInset>
+          </SidebarProvider>
+          <ToasterProvider />
         </Provider>
       </body>
     </html>
