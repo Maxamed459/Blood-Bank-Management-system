@@ -8,31 +8,30 @@ import { useRouter } from "next/navigation";
 
 export const BloodTable = () => {
   const router = useRouter();
-    const token = useAppSelector((state) => state.auth.token);
-    const fetchBloodData = async () => {
-        try {
-          const res = await axios.get(`${BASE_URL}/blood/stream`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          return res.data.data;
-
-        } catch (error) {
-          const axiosError = error as AxiosError<{ message: string }>;
-          console.log(axiosError.response?.data?.message || axiosError.message);
-        }
+  const token = useAppSelector((state) => state.auth.token);
+  const fetchBloodData = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/blood/stream`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data.data;
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      console.log(axiosError.response?.data?.message || axiosError.message);
     }
+  };
 
-    const { data, isLoading, error } = useQuery({
-    queryKey: ['bloodRecords'],
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["bloodRecords"],
     queryFn: fetchBloodData,
     staleTime: 60000, // 1 minute
   });
-//   console.log("Blood Data:", data);
+  //   console.log("Blood Data:", data);
   return (
     <div className="w-full px-4">
-      <h2 className="mb-4 text-xl font-bold">Blood Donation Record</h2>
+      <h2 className="mb-4 text-2xl font-semibold">Blood Donation Record</h2>
       <div className="overflow-auto rounded-md border">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
           <thead>
@@ -80,7 +79,14 @@ export const BloodTable = () => {
                     {formatDataTime(blood.createdAt)}
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-200">
-                    <button onClick={() => router.push(`/dashboard/blood-record/${blood.id}`)} className="px-6 py-2 bg-green-400 text-green-800 dark:bg-green-400 dark:text-white rounded-md font-semibold">Edit</button>
+                    <button
+                      onClick={() =>
+                        router.push(`/dashboard/blood-record/${blood.id}`)
+                      }
+                      className="px-6 py-2 bg-green-400 text-green-800 dark:bg-green-400 dark:text-white rounded-md font-semibold"
+                    >
+                      Edit
+                    </button>
                   </td>
                 </tr>
               ))
