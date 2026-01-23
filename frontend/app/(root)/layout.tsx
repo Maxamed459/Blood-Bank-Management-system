@@ -1,11 +1,9 @@
-"use client"
+"use client";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import Link from "next/link";
 import Image from "next/image";
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Provider } from "react-redux";
 import store from "@/store";
 
@@ -19,7 +17,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,21 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <header>
-        <title>
-          Bloody - Manage Blood Inventory with Confidence
-        </title>
+        <title>Bloody - Manage Blood Inventory with Confidence</title>
         <link rel="icon" href="/favicon.svg" />
       </header>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
           <header className="flex items-center justify-between px-6 py-4 border-b">
             <div className="">
               <Image
@@ -85,12 +74,10 @@ export default function RootLayout({
               >
                 Sign Up
               </Link>
-              <ModeToggle />
             </nav>
           </header>
 
           {children}
-        </ThemeProvider>
         </Provider>
       </body>
     </html>
