@@ -1,7 +1,6 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Provider } from "react-redux";
 import store from "@/store";
 import { ToasterProvider } from "@/components/providers/toester-provider";
@@ -31,15 +30,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <ToasterProvider />
-          </ThemeProvider>
+          {children}
+          <ToasterProvider />
         </Provider>
       </body>
     </html>
