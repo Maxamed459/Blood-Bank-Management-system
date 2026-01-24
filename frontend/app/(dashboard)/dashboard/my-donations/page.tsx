@@ -6,36 +6,43 @@ import { BASE_URL } from "@/store/BaseUrl";
 import { useAppSelector } from "@/store";
 import { formatDataTime } from "@/app/lib/formatData";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
 export default function MyDonationsPage() {
-  const [donations, setDonations] = useState<Blood[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
   const { token } = useAppSelector((state) => state.auth);
   const donorId = user?.id;
-  useEffect(() => {
-    const fetchBloodDonationRecord = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(
-          `${BASE_URL}/blood/donation-record/${donorId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setDonations(res.data.data);
-        toast.success("here are your blood donation record");
-      } catch (error) {
-        const axiosError = error as AxiosError<{ message: string }>;
-        toast.error(axiosError.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBloodDonationRecord();
-  }, [donorId, token]);
+
+  const fetchBloodDonationRecord = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/blood/donation-record/${donorId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      // setDonations(res.data.data);
+      toast.success("here are your blood donation record");
+      return res.data.data;
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(axiosError.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ["my_donations"],
+    queryFn: fetchBloodDonationRecord,
+    staleTime: 60000, // 1 minute
+  });
+
+  console.log(data);
 
   if (loading) <p>Loading...</p>;
 
@@ -66,8 +73,8 @@ export default function MyDonationsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {donations ? (
-              donations?.map((donation) => (
+            {data ? (
+              data?.map((donation: Blood) => (
                 <tr
                   key={donation.id}
                   className="hover:bg-gray-100 dark:hover:bg-gray-800"
