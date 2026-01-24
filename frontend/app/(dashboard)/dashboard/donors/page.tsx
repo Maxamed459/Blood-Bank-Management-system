@@ -1,38 +1,43 @@
 "use client";
 import { User } from "@/types/types";
 import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BASE_URL } from "@/store/BaseUrl";
 import { useAppSelector } from "@/store";
 import { formatDataTime } from "@/app/lib/formatData";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
 export default function MyRequestsPage() {
-  const [donors, setDonors] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
-  const { user } = useAppSelector((state) => state.auth);
   const { token } = useAppSelector((state) => state.auth);
-  const requester_id = user?.id;
-  useEffect(() => {
-    const fetchBloodDonationRecord = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(`${BASE_URL}/auth/users/stream`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setDonors(res.data.users);
-        toast.success(res.data.message);
-      } catch (error) {
-        const axiosError = error as AxiosError<{ message: string }>;
-        toast.error(axiosError.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBloodDonationRecord();
-  }, [requester_id, token]);
+
+  const fetchBloodDonationRecord = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${BASE_URL}/auth/users/stream`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // setDonors(res.data.users);
+      toast.success(res.data.message);
+      return res.data.users;
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(axiosError.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ["donors"],
+    queryFn: fetchBloodDonationRecord,
+    // staleTime: 60000,
+  });
+
+  console.log(data);
 
   if (loading) <p>Loading...</p>;
 
@@ -69,8 +74,8 @@ export default function MyRequestsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {donors ? (
-              donors?.map((donor) => (
+            {data ? (
+              data?.map((donor: User) => (
                 <tr
                   key={donor.id}
                   className="hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -103,7 +108,17 @@ export default function MyRequestsPage() {
               ))
             ) : (
               <tr>
-                <p>there are not donors yet</p>
+                <td>
+                  {isPending ? (
+                    <>
+                      <p>there are not donors yet</p>
+                    </>
+                  ) : (
+                    <>
+                      <p>there are not donors yet</p>
+                    </>
+                  )}
+                </td>
               </tr>
             )}
           </tbody>
