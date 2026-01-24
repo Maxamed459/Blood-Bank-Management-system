@@ -47,7 +47,7 @@ const RegisterAdmin = () => {
   const dispatch = useAppDispatch();
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { id, value } = event.target;
     setFormData((prevData) => ({
@@ -59,7 +59,7 @@ const RegisterAdmin = () => {
   // generic handler
   const handleSelectChange = (
     field: "blood_type" | "gender",
-    value: string
+    value: string,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -105,12 +105,12 @@ const RegisterAdmin = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
             {error && (
-              <div className="bg-red-200 text-red-800 border-1 border-red-800 p-4">
+              <div className="bg-red-200 text-red-800 border border-red-800 p-4">
                 <p className="text-sm">{error}</p>
               </div>
             )}
             {error && (
-              <div className="bg-red-200 text-red-800 border-1 border-red-800 p-4">
+              <div className="bg-red-200 text-red-800 border border-red-800 p-4">
                 <p className="text-sm">{error}</p>
               </div>
             )}
@@ -122,7 +122,7 @@ const RegisterAdmin = () => {
                 <Input
                   onChange={(e) => setFirstName(e.target.value)}
                   id="firstName"
-                  className="w-full border-1 border-slate-600"
+                  className="w-full border border-slate-600"
                   type="text"
                   placeholder="mohamed"
                   required
@@ -134,7 +134,7 @@ const RegisterAdmin = () => {
                 </Label>
                 <Input
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full border-1 border-slate-600"
+                  className="w-full border border-slate-600"
                   id="lastName"
                   type="text"
                   placeholder="mahdi"
@@ -153,7 +153,7 @@ const RegisterAdmin = () => {
                 type="text"
                 placeholder="your username"
                 required
-                className="border-1 border-slate-600"
+                className="border border-slate-600"
               />
             </div>
 
@@ -167,7 +167,7 @@ const RegisterAdmin = () => {
                 type="email"
                 placeholder="m@example.com"
                 required
-                className="border-1 border-slate-600"
+                className="border border-slate-600"
               />
             </div>
 
@@ -180,7 +180,7 @@ const RegisterAdmin = () => {
                   handleSelectChange("blood_type", value)
                 }
               >
-                <SelectTrigger className="w-full border-1 border-slate-600">
+                <SelectTrigger className="w-full border border-slate-600">
                   <SelectValue placeholder="Select Blood type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -204,7 +204,7 @@ const RegisterAdmin = () => {
               <Select
                 onValueChange={(value) => handleSelectChange("gender", value)}
               >
-                <SelectTrigger className="w-full border-1 border-slate-600">
+                <SelectTrigger className="w-full border border-slate-600">
                   <SelectValue placeholder="Select a Gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -226,7 +226,7 @@ const RegisterAdmin = () => {
                 id="password"
                 type={showPass.condition ? "text" : "password"}
                 required
-                className="border-1 border-slate-600"
+                className="border border-slate-600"
               />
 
               {showPass.condition ? (
