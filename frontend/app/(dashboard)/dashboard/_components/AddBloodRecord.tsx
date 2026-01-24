@@ -28,7 +28,7 @@ const AddBloodRecord = () => {
   const dispatch = useAppDispatch();
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { id, value } = event.target;
     setFormData((prevData) => ({
@@ -49,7 +49,7 @@ const AddBloodRecord = () => {
       quantity: Number(formData.quantity),
     };
 
-    console.log(payload);
+    // console.log(payload);
 
     const bloodPromise = dispatch(addBloodRecord(payload)).unwrap();
 
