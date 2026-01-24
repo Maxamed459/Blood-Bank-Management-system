@@ -2,6 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getStaff } from "@/store/slices/authSlice";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 // adjust path to where User is defined
@@ -11,21 +12,24 @@ export default function Staff() {
   console.log(staff);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const fetchStaff = async () => {
-      try {
-        const staffPromise = dispatch(getStaff()).unwrap();
-        await toast.promise(staffPromise, {
-          loading: "Getting all staff...",
-          success: "Here are the staff list",
-          error: (err) => <b>{err || "Failed to load staff"}</b>,
-        });
-      } catch (err) {
-        console.error("Staff fetch failed:", err);
-      }
-    };
-    fetchStaff();
-  }, [dispatch]);
+  const fetchStaff = async () => {
+    try {
+      const staffPromise = dispatch(getStaff()).unwrap();
+      await toast.promise(staffPromise, {
+        loading: "Getting all staff...",
+        success: "Here are the staff list",
+        error: (err) => <b>{err || "Failed to load staff"}</b>,
+      });
+    } catch (err) {
+      console.error("Staff fetch failed:", err);
+    }
+  };
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ["staff"],
+    queryFn: fetchStaff,
+    staleTime: 60000,
+  });
 
   return (
     <div className="w-full p-4">
