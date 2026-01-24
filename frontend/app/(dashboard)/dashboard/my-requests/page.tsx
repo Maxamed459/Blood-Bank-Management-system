@@ -6,35 +6,36 @@ import { BASE_URL } from "@/store/BaseUrl";
 import { useAppSelector } from "@/store";
 import { formatDataTime } from "@/app/lib/formatData";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
 export default function MyRequestsPage() {
-  const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
   const { token } = useAppSelector((state) => state.auth);
   const requester_id = user?.id;
-  useEffect(() => {
-    const fetchBloodDonationRecord = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(`${BASE_URL}/request/${requester_id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setRequests(res.data.data);
-        toast.success(res.data.message);
-      } catch (error) {
-        const axiosError = error as AxiosError<{ message: string }>;
-        toast.error(axiosError.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBloodDonationRecord();
-  }, [requester_id, token]);
+  const fetchBloodDonationRecord = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/request/${requester_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success(res.data.message);
+      return res.data.data;
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(axiosError.message);
+    }
+  };
 
-  if (loading) <p>Loading...</p>;
+  const { data, isPending, error } = useQuery({
+    queryKey: ["my_requests"],
+    queryFn: fetchBloodDonationRecord,
+    staleTime: 60000, // 1 minute
+  });
+  console.log(data);
+
+  if (isPending) <p>Loading...</p>;
 
   return (
     <div className="@container/main p-4">
@@ -69,8 +70,8 @@ export default function MyRequestsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {requests ? (
-              requests?.map((request) => (
+            {data ? (
+              data?.map((request: Request) => (
                 <tr
                   key={request.id}
                   className="hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -96,8 +97,8 @@ export default function MyRequestsPage() {
                         request.status === "PENDING"
                           ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
                           : request.status === "APPROVED"
-                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                          : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                            : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
                       }`}
                     >
                       {request.status}
